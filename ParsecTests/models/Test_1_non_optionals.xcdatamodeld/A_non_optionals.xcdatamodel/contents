@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17F77" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Entity1A" representedClassName="Entity1A" syncable="YES" codeGenerationType="class">
+        <attribute name="aBoolean" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="aData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="aDate" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="aDecimal" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="aDouble" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="aFloat" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="anInteger16" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="anInteger32" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="anInteger64" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="anURI" attributeType="URI" syncable="YES"/>
+        <attribute name="anUUID" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="aString" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Entity1A" positionX="-63" positionY="-18" width="128" height="240"/>
+    </elements>
+</model>

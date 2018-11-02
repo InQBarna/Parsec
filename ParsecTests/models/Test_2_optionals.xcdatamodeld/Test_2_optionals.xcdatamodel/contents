@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17G65" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Entity2A" representedClassName="Entity2A" syncable="YES" codeGenerationType="class">
+        <attribute name="aBoolean" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="aData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="aDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="aDecimal" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="aDouble" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="aFloat" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="anInteger16" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="anInteger32" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="anInteger64" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="anURI" optional="YES" attributeType="URI" syncable="YES"/>
+        <attribute name="anUUID" optional="YES" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="aString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" attributeType="String" syncable="YES"/>
+        <relationship name="toMany" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Entity2B" inverseName="toMany" inverseEntity="Entity2B" syncable="YES"/>
+        <relationship name="toManyOrdered" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Entity2B" inverseName="toManyOrdered" inverseEntity="Entity2B" syncable="YES"/>
+        <relationship name="toOne" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Entity2B" inverseName="toOne" inverseEntity="Entity2B" syncable="YES"/>
+        <userInfo>
+            <entry key="parsec.endpoint" value="entity2aes"/>
+            <entry key="parsec.operations" value="crud"/>
+        </userInfo>
+    </entity>
+    <entity name="Entity2B" representedClassName="Entity2B" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="toMany" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Entity2A" inverseName="toMany" inverseEntity="Entity2A" syncable="YES"/>
+        <relationship name="toManyOrdered" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Entity2A" inverseName="toManyOrdered" inverseEntity="Entity2A" syncable="YES"/>
+        <relationship name="toOne" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Entity2A" inverseName="toOne" inverseEntity="Entity2A" syncable="YES"/>
+        <userInfo>
+            <entry key="parsec.endpoint" value="entity2bes"/>
+            <entry key="parsec.oprations" value="crud"/>
+        </userInfo>
+    </entity>
+    <elements>
+        <element name="Entity2A" positionX="-63" positionY="-18" width="128" height="285"/>
+        <element name="Entity2B" positionX="-63" positionY="72" width="128" height="105"/>
+    </elements>
+</model>

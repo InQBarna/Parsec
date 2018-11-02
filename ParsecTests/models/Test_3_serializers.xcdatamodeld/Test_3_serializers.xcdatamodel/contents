@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14135" systemVersion="17F77" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Entity3A" representedClassName="Entity3A" syncable="YES" codeGenerationType="class">
+        <attribute name="aBase64" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="aUnixTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES">
+            <userInfo>
+                <entry key="parsec.serializer" value="unixTimestamp"/>
+            </userInfo>
+        </attribute>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <userInfo>
+            <entry key="parsec.serializer" value="base64"/>
+        </userInfo>
+    </entity>
+    <elements>
+        <element name="Entity3A" positionX="-63" positionY="-18" width="128" height="90"/>
+    </elements>
+</model>

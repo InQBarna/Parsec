@@ -1,0 +1,616 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		631F1946211487DC000678B6 /* AttributeDeserializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631F1945211487DC000678B6 /* AttributeDeserializationTests.swift */; };
+		631F194821148B1E000678B6 /* RelationshipSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631F194721148B1E000678B6 /* RelationshipSerializerTests.swift */; };
+		63670553215B802700C80975 /* AttributeSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63670552215B802700C80975 /* AttributeSerializationTests.swift */; };
+		63970D4521149E9A00438159 /* Parsec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4121135F0E000A4791 /* Parsec.swift */; };
+		63970D4621149E9A00438159 /* String+NamingConvention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4321135FC3000A4791 /* String+NamingConvention.swift */; };
+		63970D4721149E9A00438159 /* Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4421135FC3000A4791 /* Serializer.swift */; };
+		63970D4B21149E9A00438159 /* NSNumber+Parsec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD512113631A000A4791 /* NSNumber+Parsec.swift */; };
+		63970D4C21149E9A00438159 /* ContextCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD5421136F0A000A4791 /* ContextCache.swift */; };
+		63970D4D21149E9A00438159 /* ContextUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD5321136F0A000A4791 /* ContextUpdater.swift */; };
+		63970D542114A33C00438159 /* AttributeSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D532114A33C00438159 /* AttributeSerializer.swift */; };
+		63970D562114A3B900438159 /* EntitySerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D552114A3B900438159 /* EntitySerializer.swift */; };
+		63970D582114A42200438159 /* RelationshipSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D572114A42200438159 /* RelationshipSerializer.swift */; };
+		63970D592114A47E00438159 /* RelationshipSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D572114A42200438159 /* RelationshipSerializer.swift */; };
+		63970D5A2114A48200438159 /* AttributeSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D532114A33C00438159 /* AttributeSerializer.swift */; };
+		63970D5B2114A48400438159 /* EntitySerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D552114A3B900438159 /* EntitySerializer.swift */; };
+		63970D5E2114A8B700438159 /* EntitySerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D5D2114A8B700438159 /* EntitySerializerTests.swift */; };
+		63970D6021157AB400438159 /* OpenAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D5F21157AB400438159 /* OpenAPISpec.swift */; };
+		63970D6121157AB400438159 /* OpenAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D5F21157AB400438159 /* OpenAPISpec.swift */; };
+		63970D6421157ABD00438159 /* OpenApiSpecTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D6221157ABD00438159 /* OpenApiSpecTests.swift */; };
+		63F8FD2521135A0D000A4791 /* Parsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F8FD1B21135A0D000A4791 /* Parsec.framework */; };
+		63F8FD2A21135A0D000A4791 /* ParsecTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD2921135A0D000A4791 /* ParsecTests.swift */; };
+		63F8FD3821135AD8000A4791 /* JSONAPIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD3721135AD8000A4791 /* JSONAPIParser.swift */; };
+		63F8FD3A21135D54000A4791 /* JSONAPIParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD3921135D54000A4791 /* JSONAPIParserTests.swift */; };
+		63F8FD3C21135DAD000A4791 /* JSONAPIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD3721135AD8000A4791 /* JSONAPIParser.swift */; };
+		63F8FD3E21135DE8000A4791 /* TestTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD3D21135DE8000A4791 /* TestTools.swift */; };
+		63F8FD4221135F0E000A4791 /* Parsec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4121135F0E000A4791 /* Parsec.swift */; };
+		63F8FD4521135FC3000A4791 /* String+NamingConvention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4321135FC3000A4791 /* String+NamingConvention.swift */; };
+		63F8FD4621135FC3000A4791 /* Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4421135FC3000A4791 /* Serializer.swift */; };
+		63F8FD4921136029000A4791 /* NamingConventionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4721136029000A4791 /* NamingConventionTests.swift */; };
+		63F8FD4A21136029000A4791 /* SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4821136029000A4791 /* SerializerTests.swift */; };
+		63F8FD522113631A000A4791 /* NSNumber+Parsec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD512113631A000A4791 /* NSNumber+Parsec.swift */; };
+		63F8FD5521136F0A000A4791 /* ContextUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD5321136F0A000A4791 /* ContextUpdater.swift */; };
+		63F8FD5621136F0A000A4791 /* ContextCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD5421136F0A000A4791 /* ContextCache.swift */; };
+		63F8FD5821137084000A4791 /* ContextUpdaterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD5721137084000A4791 /* ContextUpdaterTests.swift */; };
+		63F8FD602113A828000A4791 /* Test_2_optionals.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD5A2113A828000A4791 /* Test_2_optionals.xcdatamodeld */; };
+		63F8FD612113A828000A4791 /* Test_3_serializers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD5C2113A828000A4791 /* Test_3_serializers.xcdatamodeld */; };
+		63F8FD622113A828000A4791 /* Test_1_non_optionals.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD5E2113A828000A4791 /* Test_1_non_optionals.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		63F8FD2621135A0D000A4791 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63F8FD1221135A0D000A4791 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 63F8FD1A21135A0D000A4791;
+			remoteInfo = Parsec;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		631F1945211487DC000678B6 /* AttributeDeserializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeDeserializationTests.swift; sourceTree = "<group>"; };
+		631F194721148B1E000678B6 /* RelationshipSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSerializerTests.swift; sourceTree = "<group>"; };
+		63670552215B802700C80975 /* AttributeSerializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeSerializationTests.swift; sourceTree = "<group>"; };
+		63970D532114A33C00438159 /* AttributeSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeSerializer.swift; sourceTree = "<group>"; };
+		63970D552114A3B900438159 /* EntitySerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySerializer.swift; sourceTree = "<group>"; };
+		63970D572114A42200438159 /* RelationshipSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSerializer.swift; sourceTree = "<group>"; };
+		63970D5D2114A8B700438159 /* EntitySerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySerializerTests.swift; sourceTree = "<group>"; };
+		63970D5F21157AB400438159 /* OpenAPISpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenAPISpec.swift; sourceTree = "<group>"; };
+		63970D6221157ABD00438159 /* OpenApiSpecTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenApiSpecTests.swift; sourceTree = "<group>"; };
+		63F8FD1B21135A0D000A4791 /* Parsec.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Parsec.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		63F8FD1F21135A0D000A4791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63F8FD2421135A0D000A4791 /* ParsecTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParsecTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		63F8FD2921135A0D000A4791 /* ParsecTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsecTests.swift; sourceTree = "<group>"; };
+		63F8FD2B21135A0D000A4791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63F8FD3721135AD8000A4791 /* JSONAPIParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONAPIParser.swift; sourceTree = "<group>"; };
+		63F8FD3921135D54000A4791 /* JSONAPIParserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONAPIParserTests.swift; sourceTree = "<group>"; };
+		63F8FD3D21135DE8000A4791 /* TestTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestTools.swift; sourceTree = "<group>"; };
+		63F8FD4121135F0E000A4791 /* Parsec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parsec.swift; sourceTree = "<group>"; };
+		63F8FD4321135FC3000A4791 /* String+NamingConvention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+NamingConvention.swift"; sourceTree = "<group>"; };
+		63F8FD4421135FC3000A4791 /* Serializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serializer.swift; sourceTree = "<group>"; };
+		63F8FD4721136029000A4791 /* NamingConventionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamingConventionTests.swift; sourceTree = "<group>"; };
+		63F8FD4821136029000A4791 /* SerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializerTests.swift; sourceTree = "<group>"; };
+		63F8FD512113631A000A4791 /* NSNumber+Parsec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNumber+Parsec.swift"; sourceTree = "<group>"; };
+		63F8FD5321136F0A000A4791 /* ContextUpdater.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextUpdater.swift; sourceTree = "<group>"; };
+		63F8FD5421136F0A000A4791 /* ContextCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextCache.swift; sourceTree = "<group>"; };
+		63F8FD5721137084000A4791 /* ContextUpdaterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextUpdaterTests.swift; sourceTree = "<group>"; };
+		63F8FD5B2113A828000A4791 /* Test_2_optionals.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Test_2_optionals.xcdatamodel; sourceTree = "<group>"; };
+		63F8FD5D2113A828000A4791 /* Test_3_serializers.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Test_3_serializers.xcdatamodel; sourceTree = "<group>"; };
+		63F8FD5F2113A828000A4791 /* A_non_optionals.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = A_non_optionals.xcdatamodel; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		63F8FD1721135A0D000A4791 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63F8FD2121135A0D000A4791 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63F8FD2521135A0D000A4791 /* Parsec.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		63F8FD1121135A0D000A4791 = {
+			isa = PBXGroup;
+			children = (
+				63F8FD1F21135A0D000A4791 /* Info.plist */,
+				63F8FD1D21135A0D000A4791 /* Source */,
+				63F8FD2821135A0D000A4791 /* ParsecTests */,
+				63F8FD1C21135A0D000A4791 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		63F8FD1C21135A0D000A4791 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				63F8FD1B21135A0D000A4791 /* Parsec.framework */,
+				63F8FD2421135A0D000A4791 /* ParsecTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		63F8FD1D21135A0D000A4791 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				63F8FD4121135F0E000A4791 /* Parsec.swift */,
+				63970D5F21157AB400438159 /* OpenAPISpec.swift */,
+				63F8FD4421135FC3000A4791 /* Serializer.swift */,
+				63970D552114A3B900438159 /* EntitySerializer.swift */,
+				63970D532114A33C00438159 /* AttributeSerializer.swift */,
+				63970D572114A42200438159 /* RelationshipSerializer.swift */,
+				63F8FD3721135AD8000A4791 /* JSONAPIParser.swift */,
+				63F8FD512113631A000A4791 /* NSNumber+Parsec.swift */,
+				63F8FD4321135FC3000A4791 /* String+NamingConvention.swift */,
+				63F8FD5421136F0A000A4791 /* ContextCache.swift */,
+				63F8FD5321136F0A000A4791 /* ContextUpdater.swift */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		63F8FD2821135A0D000A4791 /* ParsecTests */ = {
+			isa = PBXGroup;
+			children = (
+				63F8FD592113A828000A4791 /* models */,
+				63F8FD4721136029000A4791 /* NamingConventionTests.swift */,
+				63F8FD4821136029000A4791 /* SerializerTests.swift */,
+				63970D5D2114A8B700438159 /* EntitySerializerTests.swift */,
+				631F1945211487DC000678B6 /* AttributeDeserializationTests.swift */,
+				63670552215B802700C80975 /* AttributeSerializationTests.swift */,
+				631F194721148B1E000678B6 /* RelationshipSerializerTests.swift */,
+				63F8FD3921135D54000A4791 /* JSONAPIParserTests.swift */,
+				63F8FD2921135A0D000A4791 /* ParsecTests.swift */,
+				63F8FD3D21135DE8000A4791 /* TestTools.swift */,
+				63F8FD5721137084000A4791 /* ContextUpdaterTests.swift */,
+				63970D6221157ABD00438159 /* OpenApiSpecTests.swift */,
+				63F8FD2B21135A0D000A4791 /* Info.plist */,
+			);
+			path = ParsecTests;
+			sourceTree = "<group>";
+		};
+		63F8FD592113A828000A4791 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				63F8FD5A2113A828000A4791 /* Test_2_optionals.xcdatamodeld */,
+				63F8FD5C2113A828000A4791 /* Test_3_serializers.xcdatamodeld */,
+				63F8FD5E2113A828000A4791 /* Test_1_non_optionals.xcdatamodeld */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		63F8FD1821135A0D000A4791 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		63F8FD1A21135A0D000A4791 /* Parsec */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63F8FD2F21135A0D000A4791 /* Build configuration list for PBXNativeTarget "Parsec" */;
+			buildPhases = (
+				63F8FD1621135A0D000A4791 /* Sources */,
+				63F8FD1721135A0D000A4791 /* Frameworks */,
+				63F8FD1821135A0D000A4791 /* Headers */,
+				63F8FD1921135A0D000A4791 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Parsec;
+			productName = Parsec;
+			productReference = 63F8FD1B21135A0D000A4791 /* Parsec.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		63F8FD2321135A0D000A4791 /* ParsecTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63F8FD3221135A0D000A4791 /* Build configuration list for PBXNativeTarget "ParsecTests" */;
+			buildPhases = (
+				63F8FD2021135A0D000A4791 /* Sources */,
+				63F8FD2121135A0D000A4791 /* Frameworks */,
+				63F8FD2221135A0D000A4791 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				63F8FD2721135A0D000A4791 /* PBXTargetDependency */,
+			);
+			name = ParsecTests;
+			productName = ParsecTests;
+			productReference = 63F8FD2421135A0D000A4791 /* ParsecTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		63F8FD1221135A0D000A4791 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0940;
+				LastUpgradeCheck = 0940;
+				ORGANIZATIONNAME = InQBarna;
+				TargetAttributes = {
+					63F8FD1A21135A0D000A4791 = {
+						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
+					};
+					63F8FD2321135A0D000A4791 = {
+						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
+					};
+				};
+			};
+			buildConfigurationList = 63F8FD1521135A0D000A4791 /* Build configuration list for PBXProject "Parsec" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 63F8FD1121135A0D000A4791;
+			productRefGroup = 63F8FD1C21135A0D000A4791 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				63F8FD1A21135A0D000A4791 /* Parsec */,
+				63F8FD2321135A0D000A4791 /* ParsecTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		63F8FD1921135A0D000A4791 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63F8FD2221135A0D000A4791 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		63F8FD1621135A0D000A4791 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63970D6021157AB400438159 /* OpenAPISpec.swift in Sources */,
+				63970D542114A33C00438159 /* AttributeSerializer.swift in Sources */,
+				63970D4D21149E9A00438159 /* ContextUpdater.swift in Sources */,
+				63970D4C21149E9A00438159 /* ContextCache.swift in Sources */,
+				63970D582114A42200438159 /* RelationshipSerializer.swift in Sources */,
+				63970D4621149E9A00438159 /* String+NamingConvention.swift in Sources */,
+				63970D562114A3B900438159 /* EntitySerializer.swift in Sources */,
+				63970D4B21149E9A00438159 /* NSNumber+Parsec.swift in Sources */,
+				63970D4721149E9A00438159 /* Serializer.swift in Sources */,
+				63970D4521149E9A00438159 /* Parsec.swift in Sources */,
+				63F8FD3821135AD8000A4791 /* JSONAPIParser.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63F8FD2021135A0D000A4791 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63970D5A2114A48200438159 /* AttributeSerializer.swift in Sources */,
+				63670553215B802700C80975 /* AttributeSerializationTests.swift in Sources */,
+				63F8FD4921136029000A4791 /* NamingConventionTests.swift in Sources */,
+				63F8FD5821137084000A4791 /* ContextUpdaterTests.swift in Sources */,
+				63F8FD4621135FC3000A4791 /* Serializer.swift in Sources */,
+				63F8FD4221135F0E000A4791 /* Parsec.swift in Sources */,
+				63970D6121157AB400438159 /* OpenAPISpec.swift in Sources */,
+				63F8FD522113631A000A4791 /* NSNumber+Parsec.swift in Sources */,
+				63F8FD3E21135DE8000A4791 /* TestTools.swift in Sources */,
+				63F8FD602113A828000A4791 /* Test_2_optionals.xcdatamodeld in Sources */,
+				631F194821148B1E000678B6 /* RelationshipSerializerTests.swift in Sources */,
+				63F8FD5521136F0A000A4791 /* ContextUpdater.swift in Sources */,
+				63F8FD3A21135D54000A4791 /* JSONAPIParserTests.swift in Sources */,
+				63F8FD612113A828000A4791 /* Test_3_serializers.xcdatamodeld in Sources */,
+				63F8FD5621136F0A000A4791 /* ContextCache.swift in Sources */,
+				63970D5B2114A48400438159 /* EntitySerializer.swift in Sources */,
+				63970D592114A47E00438159 /* RelationshipSerializer.swift in Sources */,
+				631F1946211487DC000678B6 /* AttributeDeserializationTests.swift in Sources */,
+				63970D5E2114A8B700438159 /* EntitySerializerTests.swift in Sources */,
+				63F8FD2A21135A0D000A4791 /* ParsecTests.swift in Sources */,
+				63970D6421157ABD00438159 /* OpenApiSpecTests.swift in Sources */,
+				63F8FD622113A828000A4791 /* Test_1_non_optionals.xcdatamodeld in Sources */,
+				63F8FD4A21136029000A4791 /* SerializerTests.swift in Sources */,
+				63F8FD4521135FC3000A4791 /* String+NamingConvention.swift in Sources */,
+				63F8FD3C21135DAD000A4791 /* JSONAPIParser.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		63F8FD2721135A0D000A4791 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 63F8FD1A21135A0D000A4791 /* Parsec */;
+			targetProxy = 63F8FD2621135A0D000A4791 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		63F8FD2D21135A0D000A4791 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		63F8FD2E21135A0D000A4791 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		63F8FD3021135A0D000A4791 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.inqbarna.Parsec;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		63F8FD3121135A0D000A4791 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.inqbarna.Parsec;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		63F8FD3321135A0D000A4791 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ParsecTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.inqbarna.ParsecTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		63F8FD3421135A0D000A4791 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ParsecTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.inqbarna.ParsecTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		63F8FD1521135A0D000A4791 /* Build configuration list for PBXProject "Parsec" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63F8FD2D21135A0D000A4791 /* Debug */,
+				63F8FD2E21135A0D000A4791 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		63F8FD2F21135A0D000A4791 /* Build configuration list for PBXNativeTarget "Parsec" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63F8FD3021135A0D000A4791 /* Debug */,
+				63F8FD3121135A0D000A4791 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		63F8FD3221135A0D000A4791 /* Build configuration list for PBXNativeTarget "ParsecTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63F8FD3321135A0D000A4791 /* Debug */,
+				63F8FD3421135A0D000A4791 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		63F8FD5A2113A828000A4791 /* Test_2_optionals.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				63F8FD5B2113A828000A4791 /* Test_2_optionals.xcdatamodel */,
+			);
+			currentVersion = 63F8FD5B2113A828000A4791 /* Test_2_optionals.xcdatamodel */;
+			path = Test_2_optionals.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		63F8FD5C2113A828000A4791 /* Test_3_serializers.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				63F8FD5D2113A828000A4791 /* Test_3_serializers.xcdatamodel */,
+			);
+			currentVersion = 63F8FD5D2113A828000A4791 /* Test_3_serializers.xcdatamodel */;
+			path = Test_3_serializers.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		63F8FD5E2113A828000A4791 /* Test_1_non_optionals.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				63F8FD5F2113A828000A4791 /* A_non_optionals.xcdatamodel */,
+			);
+			currentVersion = 63F8FD5F2113A828000A4791 /* A_non_optionals.xcdatamodel */;
+			path = Test_1_non_optionals.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 63F8FD1221135A0D000A4791 /* Project object */;
+}
