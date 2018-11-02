@@ -137,7 +137,7 @@ public struct APIObject {
     public let type: String
     
     /// API domain object id.
-    public let id: AnyHashable
+    public let id: AnyHashable?
     
     /// Dictionary containig the attributes of the object.
     public let attributes: [String : APIAttribute]
@@ -342,10 +342,6 @@ public class Parsec {
     }
     
     private func objectDataFor(_ managedObject: NSManagedObject, serializer: EntitySerializer) throws -> ObjectData {
-        guard let id = managedObject.value(forKey: serializer.idAttribute.name) as? AnyHashable else {
-            fatalError()
-        }
-        
         var attributes: [String : Any?] = [:]
         for (name, _) in serializer.attributesByName {
             attributes[name] = managedObject.value(forKey: name)
@@ -358,6 +354,8 @@ public class Parsec {
                                                    value: managedObject.value(forKey: name))
         }
 
+        let id = managedObject.value(forKey: serializer.idAttribute.name) as? AnyHashable
+        
         return ObjectData(id: id,
                           entitySerializer: serializer,
                           attributes: attributes,

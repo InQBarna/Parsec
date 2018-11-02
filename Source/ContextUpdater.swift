@@ -25,7 +25,7 @@
 import CoreData
 
 struct ObjectData {
-    let id: AnyHashable
+    let id: AnyHashable?
     let entitySerializer: EntitySerializer
     let attributes: [String : Any?]
     let relationships: [String : RelationshipData]
@@ -37,7 +37,11 @@ struct RelationshipData {
 }
 
 class ContextUpdater {
-    
+
+    public enum ErrorCode: Int {
+        case nilId
+    }
+
     let context: NSManagedObjectContext
     
     private let cache: ContextCache
@@ -49,7 +53,11 @@ class ContextUpdater {
     
     func computeRequired(changes: [ObjectData]) throws {
         for cs in changes {
-            cache.require(cs.entitySerializer.name, remoteId: cs.entitySerializer.idAttribute.remoteName, ids: [cs.id])
+            guard let id = cs.id else {
+                throw errorWithCode(.nilId, localizedDescription: "Object data with null id")
+            }
+
+            cache.require(cs.entitySerializer.name, remoteId: cs.entitySerializer.idAttribute.remoteName, ids: [id])
             
             for (_, rel) in cs.relationships {
                 guard let value = rel.value else {
@@ -75,8 +83,12 @@ class ContextUpdater {
             guard let entity = context.persistentStoreCoordinator?.managedObjectModel.entitiesByName[cs.entitySerializer.name] else {
                 fatalError()
             }
-            
-            guard let object = try cache.object(entity, id: cs.id) else {
+
+            guard let id = cs.id else {
+                throw errorWithCode(.nilId, localizedDescription: "Object data with null id")
+            }
+
+            guard let object = try cache.object(entity, id: id) else {
                 fatalError()
             }
             
@@ -167,4 +179,11 @@ class ContextUpdater {
         try apply(changes)
         
     }
+
+    fileprivate func errorWithCode(_ code: ErrorCode, localizedDescription: String) -> NSError {
+        return NSError(domain: "Parsec.JSONAPIParser",
+                       code: code.rawValue,
+                       userInfo: [NSLocalizedDescriptionKey : localizedDescription])
+    }
+
 }

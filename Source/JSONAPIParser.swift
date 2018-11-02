@@ -104,7 +104,10 @@ public class JSONAPIParser: APIParser {
         var result: [String : Any] = [:]
 
         result["type"] = object.type
-        result["id"] = object.id
+
+        if let id = object.id {
+            result["id"] = id
+        }
         
         var attributes: [String : Any] = [:]
         for (name, att) in object.attributes {

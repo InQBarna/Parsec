@@ -61,29 +61,28 @@ class EntitySerializer: NSObject {
         
         super.init()
         
-        // Attributes
-        var attributesByName: [String : AttributeSerializer] = [:]
-        
-        var idName: String? = nil
+        // Id and ignored attributes
+        var ignoredAttributes: [String] = []
+        var idAttribute: AttributeSerializer? = nil
         
         for (name, attribute) in entity.attributesByName {
             guard ((attribute.userInfo?[UserInfoKey.ignore.rawValue] as? String) ?? "false") != "true" else {
+                ignoredAttributes.append(name)
                 continue
             }
-            attributesByName[name] = try AttributeSerializer(attribute: attribute, entity: self)
-            
+
             if (attribute.userInfo?[UserInfoKey.isRemoteId.rawValue] as? String) ?? "false" == "true" {
-                guard idName == nil else {
-                    let message = String(format: "Mutliple remote ids (%@) for entity '%@'", [idName!, name].joined(separator: ", "), name)
+                guard idAttribute == nil else {
+                    let message = String(format: "Mutliple remote ids (%@) for entity '%@'", [idAttribute!.name, name].joined(separator: ", "), name)
                     throw EntitySerializerErrorCode.multipleIds.error(message)
                 }
-                idName = name
+                idAttribute = try AttributeSerializer(attribute: attribute, entity: self)
+                break
             }
         }
-        self.attributesByName = attributesByName
         
-        if let idName = idName {
-            self.idAttribute = attributesByName[idName]
+        if let idAttribute = idAttribute {
+            self.idAttribute = idAttribute
         } else {
             let commonElements = Array(Set(parsec.defaultIdNames).intersection(Set(Array(entity.attributesByName.keys))))
             guard commonElements.count == 1 else {
@@ -95,9 +94,29 @@ class EntitySerializer: NSObject {
                     throw EntitySerializerErrorCode.missingId.error(message)
                 }
             }
-            self.idAttribute = attributesByName[commonElements.first!]
+
+            if
+                let name = commonElements.first,
+                let attribute = entity.attributesByName[name]
+            {
+                self.idAttribute = try AttributeSerializer(attribute: attribute, entity: self)
+            } else {
+                fatalError()
+            }
         }
-        
+        ignoredAttributes.append(self.idAttribute.name)
+
+        // Attributes
+        var attributesByName: [String : AttributeSerializer] = [:]
+
+        for (name, attribute) in entity.attributesByName {
+            guard !ignoredAttributes.contains(name) else {
+                continue
+            }
+            attributesByName[name] = try AttributeSerializer(attribute: attribute, entity: self)
+        }
+        self.attributesByName = attributesByName
+
         
         // Relationships
         var relationshipsByName: [String : RelationshipSerializer] = [:]
@@ -114,8 +133,6 @@ class EntitySerializer: NSObject {
 
     func serialize(_ object: ObjectData) throws -> APIObject {
     
-        let id = try idAttribute.serialize(object.id).value as! AnyHashable
-        
         var attributes: [String : APIAttribute] = [:]
         
         for (name, serializer) in attributesByName {
@@ -139,6 +156,15 @@ class EntitySerializer: NSObject {
             }
             
             relationships[serializer.remoteName] = try serializer.serialize(relData)
+        }
+
+        var id: AnyHashable? = nil
+
+        if
+            let objectId = object.id,
+            let o = try idAttribute.serialize(objectId).value as? AnyHashable
+        {
+            id = o
         }
 
         return APIObject(type: remoteName,
