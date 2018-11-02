@@ -285,11 +285,21 @@ public class Parsec {
     /// - parameter json:       The API response to be processed.
     public func update(_ context: NSManagedObjectContext, with json: [String : Any]) throws {
         let document = try parser.parse(json: json)
+        try update(context, with: document)
+    }
+
+    /// Updates a `NSManagedObjectContext` with the objects described in the document.
+    ///
+    /// The update is done without performing any `save` operation on the context. Also, only the attributes/relationships that have changed are modified. This means that for instance, if the object description from the API matches the content of the context, after the update, the context will be untouched.
+    ///
+    /// - parameter context:    The `NSManagedObjectContext` to be updated.
+    /// - parameter document:   The API document to be processed.
+    public func update(_ context: NSManagedObjectContext, with document: APIDocument) throws {
         let objects = try deserialize(document: document)
         let updater = ContextUpdater(context: context)
         try updater.update(changes: objects)
     }
-    
+
     /// Creates an API representation of an object.
     /// - parameter object:     A `NSManagedObject`.
     /// - returns: An dictionary with the API representation of the object.
