@@ -30,7 +30,10 @@ public class ISO8601DateSerializer: Serializer {
     private static let shared: ISO8601DateFormatter = {
         return ISO8601DateFormatter()
     }()
-    
+
+    public init() {
+    }
+
     public func deserialize(_ value: Any) throws -> Any? {
         guard let value = value as? String else {
             throw SerializerErrorCode.unexpectedObject.error("Object should be a String")
