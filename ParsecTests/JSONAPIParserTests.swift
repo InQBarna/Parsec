@@ -26,73 +26,73 @@ import XCTest
 @testable import Parsec
 
 class JSONAPIParserTests: XCTestCase {
-    
+
     func testEmptyDocument() {
-        
-        let json: [String : Any] = [:]
-        
+
+        let json: [String: Any] = [:]
+
         let parser = JSONAPIParser()
-        
+
         do {
-            let _ = try parser.parse(json: json)
+            _ = try parser.parse(json: json)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .malformedDocument))
         }
     }
-    
+
     // MARK: - Version tests
-    
+
     func testWrongVersion() {
-        
-        let json: [String : Any] = ["jsonapi" : ["version" : "1.1"]]
-        
+
+        let json: [String: Any] = ["jsonapi": ["version": "1.1"]]
+
         let parser = JSONAPIParser()
-        
+
         do {
-            let _ = try parser.parse(json: json)
+            _ = try parser.parse(json: json)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .unsupportedVersion))
         }
     }
-    
+
     func testMalformedVersion() {
-        
-        let json: [String : Any] = ["jsonapi" : ["version" : 1]]
-        
+
+        let json: [String: Any] = ["jsonapi": ["version": 1]]
+
         let parser = JSONAPIParser()
-        
+
         do {
-            let _ = try parser.parse(json: json)
+            _ = try parser.parse(json: json)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .malformedDocument))
         }
     }
-    
+
     // MARK: - Data tests
-    
+
     func testWrongData() {
-        
-        let json: [String : Any] = ["data" : "dog"]
-        
+
+        let json: [String: Any] = ["data": "dog"]
+
         let parser = JSONAPIParser()
-        
+
         do {
-            let _ = try parser.parse(json: json)
+            _ = try parser.parse(json: json)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .malformedDocument))
         }
     }
-    
+
     func testNullData() {
-        
-        let json: [String : Any] = ["data" : NSNull()]
-        
+
+        let json: [String: Any] = ["data": NSNull()]
+
         let parser = JSONAPIParser()
-        
+
         do {
             let document = try parser.parse(json: json)
             XCTAssert(document.errors == nil)
@@ -102,13 +102,13 @@ class JSONAPIParserTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     func testOneData() {
-        
-        let json: [String : Any] = ["data" : ["type" : "pet", "id" : "1", "attributes" : ["age" : 1]]]
-        
+
+        let json: [String: Any] = ["data": ["type": "pet", "id": "1", "attributes": ["age": 1]]]
+
         let parser = JSONAPIParser()
-        
+
         do {
             let document = try parser.parse(json: json)
             XCTAssert(document.errors == nil)
@@ -118,14 +118,14 @@ class JSONAPIParserTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     func testManyData() {
-        
-        let json: [String : Any] = ["data" : [["type" : "pet", "id" : "1", "attributes" : ["age" : 1]],
-                                              ["type" : "pet", "id" : "2", "attributes" : ["name" : "marlo"]]]]
-        
+
+        let json: [String: Any] = ["data": [["type": "pet", "id": "1", "attributes": ["age": 1]],
+                                              ["type": "pet", "id": "2", "attributes": ["name": "marlo"]]]]
+
         let parser = JSONAPIParser()
-        
+
         do {
             let document = try parser.parse(json: json)
             XCTAssert(document.errors == nil)
@@ -135,91 +135,91 @@ class JSONAPIParserTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     // MARK: - Resource Object
-    
+
     func testMissingId() {
-        
-        let json: [String : Any] = ["data" : ["type" : "pet"]]
-        
+
+        let json: [String: Any] = ["data": ["type": "pet"]]
+
         let parser = JSONAPIParser()
-        
+
         do {
-            let _ = try parser.parse(json: json)
+            _ = try parser.parse(json: json)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .malformedDocument))
         }
     }
-    
+
     func testMissingType() {
-        
-        let json: [String : Any] = ["data" : ["id" : "1"]]
-        
+
+        let json: [String: Any] = ["data": ["id": "1"]]
+
         let parser = JSONAPIParser()
-        
+
         do {
-            let _ = try parser.parse(json: json)
+            _ = try parser.parse(json: json)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .malformedDocument))
         }
     }
-    
+
     func testWrongId() {
-        
-        let json: [String : Any] = ["data" : ["type": "pet", "id" : 1]]
-        
+
+        let json: [String: Any] = ["data": ["type": "pet", "id": 1]]
+
         let parser = JSONAPIParser()
-        
+
         do {
-            let _ = try parser.parse(json: json)
+            _ = try parser.parse(json: json)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .malformedDocument))
         }
     }
-    
+
     func testWrongAttributes() {
-        
-        let json: [String : Any] = ["data" : ["type": "pet",
-                                              "id" : "1",
-                                              "attributes" : "old"]]
-        
+
+        let json: [String: Any] = ["data": ["type": "pet",
+                                              "id": "1",
+                                              "attributes": "old"]]
+
         let parser = JSONAPIParser()
-        
+
         do {
-            let _ = try parser.parse(json: json)
+            _ = try parser.parse(json: json)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .malformedDocument))
         }
     }
-    
+
     func testWrongToOneRelationships() {
-        
-        let json: [String : Any] = ["data" : ["type": "pet",
-                                              "id" : "1",
-                                              "relationships" : "old"]]
-        
+
+        let json: [String: Any] = ["data": ["type": "pet",
+                                              "id": "1",
+                                              "relationships": "old"]]
+
         let parser = JSONAPIParser()
-        
+
         do {
-            let _ = try parser.parse(json: json)
+            _ = try parser.parse(json: json)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .malformedDocument))
         }
     }
-    
+
     func testNullToOneRelationships() {
-        
-        let json: [String : Any] = ["data" : ["type": "pet",
-                                              "id" : "1",
-                                              "relationships" : ["owner" : ["data": NSNull()]]]]
-        
+
+        let json: [String: Any] = ["data": ["type": "pet",
+                                              "id": "1",
+                                              "relationships": ["owner": ["data": NSNull()]]]]
+
         let parser = JSONAPIParser()
-        
+
         do {
             let document = try parser.parse(json: json)
             XCTAssert(document.errors == nil)
@@ -228,7 +228,7 @@ class JSONAPIParserTests: XCTestCase {
             let object = document.data![0]
             let rel = object.relationships["owner"]!
             XCTAssert(rel.type == nil)
-            
+
             switch rel.value {
             case .null:
                 break
@@ -239,15 +239,15 @@ class JSONAPIParserTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     func testToOneRelationships() {
-        
-        let json: [String : Any] = ["data" : ["type": "pet",
-                                              "id" : "1",
-                                              "relationships" : ["owner" : ["data": ["type": "person", "id" : "1"]]]]]
-        
+
+        let json: [String: Any] = ["data": ["type": "pet",
+                                              "id": "1",
+                                              "relationships": ["owner": ["data": ["type": "person", "id": "1"]]]]]
+
         let parser = JSONAPIParser()
-        
+
         do {
             let document = try parser.parse(json: json)
             XCTAssert(document.errors == nil)
@@ -256,7 +256,7 @@ class JSONAPIParserTests: XCTestCase {
             let object = document.data![0]
             let rel = object.relationships["owner"]!
             XCTAssert(rel.type! == "person")
-            
+
             switch rel.value {
             case .toOne(id: let id):
                 XCTAssert(id is String)
@@ -269,15 +269,15 @@ class JSONAPIParserTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     func testEmptyToManyRelationships() {
-        
-        let json: [String : Any] = ["data" : ["type": "pet",
-                                              "id" : "1",
-                                              "relationships" : ["friends" : ["data": []]]]]
-        
+
+        let json: [String: Any] = ["data": ["type": "pet",
+                                              "id": "1",
+                                              "relationships": ["friends": ["data": []]]]]
+
         let parser = JSONAPIParser()
-        
+
         do {
             let document = try parser.parse(json: json)
             XCTAssert(document.errors == nil)
@@ -286,11 +286,11 @@ class JSONAPIParserTests: XCTestCase {
             let object = document.data![0]
             let rel = object.relationships["friends"]!
             XCTAssert(rel.type == nil)
-            
+
             switch rel.value {
             case .toMany(ids: let ids):
                 XCTAssert(ids.count == 0)
-                
+
             default:
                 XCTAssert(false)
             }
@@ -298,16 +298,16 @@ class JSONAPIParserTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     func testToManyRelationships() {
-        
-        let json: [String : Any] = ["data" : ["type": "pet",
-                                              "id" : "1",
-                                              "relationships" : ["owners" : ["data": [["type": "person", "id" : "1"],
-                                                                                      ["type": "person", "id" : "2"]]]]]]
-        
+
+        let json: [String: Any] = ["data": ["type": "pet",
+                                              "id": "1",
+                                              "relationships": ["owners": ["data": [["type": "person", "id": "1"],
+                                                                                      ["type": "person", "id": "2"]]]]]]
+
         let parser = JSONAPIParser()
-        
+
         do {
             let document = try parser.parse(json: json)
             XCTAssert(document.errors == nil)
@@ -316,7 +316,7 @@ class JSONAPIParserTests: XCTestCase {
             let object = document.data![0]
             let rel = object.relationships["owners"]!
             XCTAssert(rel.type! == "person")
-            
+
             switch rel.value {
             case .toMany(ids: let ids):
                 XCTAssert(ids.count == 2)
@@ -326,37 +326,37 @@ class JSONAPIParserTests: XCTestCase {
             default:
                 XCTAssert(false)
             }
-            
+
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     // MARK: - Included
-    
+
     func testWrongIncluded() {
-        
-        let json: [String : Any] = ["data" : [],
-                                    "included" : "hi"]
-        
+
+        let json: [String: Any] = ["data": [],
+                                    "included": "hi"]
+
         let parser = JSONAPIParser()
-        
+
         do {
-            let _ = try parser.parse(json: json)
+            _ = try parser.parse(json: json)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .malformedDocument))
         }
     }
-    
+
     func testIncluded() {
-        
-        let json: [String : Any] = ["data" : [],
-                                    "included" : [["type" : "pet", "id" : "1", "attributes" : ["age" : 1]],
-                                                  ["type" : "person", "id" : "2", "attributes" : ["name" : "marlo"]]]]
-        
+
+        let json: [String: Any] = ["data": [],
+                                    "included": [["type": "pet", "id": "1", "attributes": ["age": 1]],
+                                                  ["type": "person", "id": "2", "attributes": ["name": "marlo"]]]]
+
         let parser = JSONAPIParser()
-        
+
         do {
             let document = try parser.parse(json: json)
             XCTAssert(document.errors == nil)
@@ -366,33 +366,33 @@ class JSONAPIParserTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     // MARK: - Performance
-    
+
     func testPerformance() {
-        
-        var objects: [[String : Any]] = []
-        
+
+        var objects: [[String: Any]] = []
+
         for id in 1..<1000 {
             let o = TestTools.shared.jsonEntity2A(id: String(id), max: 1000)
             objects.append(o)
         }
-        
-        let json: [String : Any] = ["data" : objects]
-        
+
+        let json: [String: Any] = ["data": objects]
+
         self.measure {
             let parser = JSONAPIParser()
-            
+
             do {
-                let _ = try parser.parse(json: json)
+                _ = try parser.parse(json: json)
             } catch let error {
                 XCTAssert(false, error.localizedDescription)
             }
         }
     }
-    
+
     // MARK: - Private
-    
+
     private func check(_ error: Error, is code: JSONAPIParser.ErrorCode) -> Bool {
         return (error as NSError).code == code.rawValue
     }

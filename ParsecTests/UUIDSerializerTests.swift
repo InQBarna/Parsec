@@ -63,7 +63,7 @@ class UUIDSerializerTests: XCTestCase {
 
         do {
             let apiAttribute = try APIAttribute(value: 123)
-            let _ = try sut.deserialize(apiAttribute)
+            _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
@@ -76,7 +76,7 @@ class UUIDSerializerTests: XCTestCase {
 
         do {
             let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
-            let _ = try sut.deserialize(apiAttribute)
+            _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .failed))
@@ -105,7 +105,7 @@ class UUIDSerializerTests: XCTestCase {
         let sut = UUIDSerializer()
 
         do {
-            let _ = try sut.serialize(123)
+            _ = try sut.serialize(123)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))

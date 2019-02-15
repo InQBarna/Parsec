@@ -61,7 +61,7 @@ class DoubleSerializerTests: XCTestCase {
 
         do {
             let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
-            let _ = try sut.deserialize(apiAttribute)
+            _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
@@ -88,7 +88,7 @@ class DoubleSerializerTests: XCTestCase {
         let sut = DoubleSerializer()
 
         do {
-            let _ = try sut.serialize("lorem ipsum dolor est")
+            _ = try sut.serialize("lorem ipsum dolor est")
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))

@@ -22,7 +22,6 @@
 // THE SOFTWARE.
 //
 
-
 import Foundation
 
 public class Base64DataSerializer: Serializer {

@@ -62,7 +62,7 @@ public enum NamingConvention: String {
     case none
     case snakeCase
     case hyphen
-    
+
     /// Returns the `name` converted to the naming convetion..
     /// - parameter name:     The name to be converted.
     /// - returns: The converted name as `String`.
@@ -81,12 +81,12 @@ public enum NamingConvention: String {
 public enum SerializerErrorCode: Int {
     case unexpectedObject
     case failed
-    
+
     /// Returns an `NSError` with the given `message` as localized description and the `SerializerErrorCode` code.
     /// - parameter message:     The description of the error.
     /// - returns: An `NSError`.
     public func error(_ message: String) -> NSError {
-        return NSError(domain: "Parsec.Serializer", code: self.rawValue, userInfo: [NSLocalizedDescriptionKey : message])
+        return NSError(domain: "Parsec.Serializer", code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: message])
     }
 }
 
@@ -96,7 +96,7 @@ public protocol Serializer {
     /// - parameter value:  The JSON domain value to be deserialized.
     /// - returns: An `Any` or `nil`.
     func deserialize(_ value: APIAttribute) throws -> Any?
-    
+
     /// Serializes a NSManagedObject domain value into a JSON domain value.
     /// - parameter value:  The NSManagedObject domain value to be serialized.
     /// - returns: An `Any`.
@@ -108,40 +108,40 @@ public protocol APIParser: class {
     /// Parses the API response (`json`) into a `APIDocument`.
     /// - parameter json:  The API response to be parsed.
     /// - returns: An `APIDocument`.
-    func parse(json: [String : Any]) throws -> APIDocument
-    
+    func parse(json: [String: Any]) throws -> APIDocument
+
     /// Converts an `APIObject` into a JSON object.
     /// - parameter object:  The API object to be converted.
     /// - returns: An dictionary (`[String : Any]`).
-    func json(object: APIObject) throws -> [String : Any]
+    func json(object: APIObject) throws -> [String: Any]
 }
 
 /// Document containing the parsed API. This structure is based on the JSONAPI spec but is still generic enough to allow most Rest API responses to be parsed into such document.
 public struct APIDocument {
     /// An array of `APIObject` or `nil` if there are errors. These objects are the main payload of the API response.
     public let data: [APIObject]?
-    
+
     /// An array of `APIObject` or `nil` if there are errors. These objects are referenced by the objects in `data`.
     public let included: [APIObject]?
-    
+
     /// An array of `Error` or `nil`. These errors are server side errors. A document with errors is still a valid document.
     public let errors: [Error]?
-    
+
     /// An dictionary containing side information (i.e. pagination).
-    public let meta: [String : Any]?
+    public let meta: [String: Any]?
 }
 
 /// Contains the information of one API object or resource.
 public struct APIObject {
     /// API domain name of the resource.
     public let type: String
-    
+
     /// API domain object id.
     public let id: AnyHashable?
-    
+
     /// Dictionary containig the attributes of the object.
-    public let attributes: [String : APIAttribute]
-    
+    public let attributes: [String: APIAttribute]
+
     /// Dictionary containig the relationships of the object.
     public let relationships: [String: APIRelationship]
 }
@@ -156,39 +156,39 @@ public struct APIObject {
 public enum APIAttribute {
     case string(String)
     case number(NSNumber)
-    case object([String : Any])
+    case object([String: Any])
     case array([Any])
     case boolean(Bool)
     case null
-    
+
     /// Creates a `APIAttribute`.
     /// - parameter value:  The value to be converted.
     /// - returns: An `APIAttribute`.
     public init(value: Any) throws {
-        
+
         if value is NSNull {
             self = .null
-            
-        } else if let s = value as? String {
-            self = .string(s)
-            
-        } else if let b = value as? NSNumber {
-            let numberType = CFNumberGetType(b)
+
+        } else if let string = value as? String {
+            self = .string(string)
+
+        } else if let number = value as? NSNumber {
+            let numberType = CFNumberGetType(number)
             switch numberType {
-            case .charType: self = .boolean(b.boolValue)
-            default: self = .number(b)
+            case .charType: self = .boolean(number.boolValue)
+            default: self = .number(number)
             }
-            
-        } else if let a = value as? [Any] {
-            self = .array(a)
-            
-        } else if let o = value as? [String : Any] {
-            self = .object(o)
+
+        } else if let array = value as? [Any] {
+            self = .array(array)
+
+        } else if let object = value as? [String: Any] {
+            self = .object(object)
         } else {
-            throw NSError(domain: "Parsec.APIAttribute", code: 1, userInfo: [NSLocalizedDescriptionKey : String(format: "Unsupported value '%@'", (value as AnyObject).debugDescription)])
+            throw NSError(domain: "Parsec.APIAttribute", code: 1, userInfo: [NSLocalizedDescriptionKey: String(format: "Unsupported value '%@'", (value as AnyObject).debugDescription)])
         }
     }
-    
+
     /// Returns the value held in the `APIAttribute`.
     public var value: Any {
         switch self {
@@ -200,18 +200,18 @@ public enum APIAttribute {
         case .null: return NSNull()
         }
     }
-    
+
     public var description: String {
         switch self {
-        case .string( _): return "string"
-        case .number( _): return "number"
-        case .object( _): return "object"
-        case .array( _): return "array"
-        case .boolean( _): return "boolean"
+        case .string: return "string"
+        case .number: return "number"
+        case .object: return "object"
+        case .array: return "array"
+        case .boolean: return "boolean"
         case .null: return "null"
         }
     }
-    
+
 }
 
 /// Describes the relationship between API objects.
@@ -226,41 +226,41 @@ public struct APIRelationship {
         case toOne(id: AnyHashable)
         case toMany(ids: [AnyHashable])
     }
-    
+
     /// Name of the destination resource name.
     public let type: String?
-    
+
     /// The value of the relationship.
     public let value: Value
 }
 
 /// *Parsec*
 public class Parsec {
-    
+
     public let parser: APIParser
     public let naming: NamingConvention
-    public let serializers: [String : Serializer]
+    public let serializers: [String: Serializer]
     public let defaultDateSerializer: Serializer
     public let defaultDataSerializer: Serializer
     public let defaultIdNames: [String]
-    
-    private(set) var entitiesByName: [String : EntitySerializer]
-    private(set) var entitiesByType: [String : EntitySerializer]
+
+    private(set) var entitiesByName: [String: EntitySerializer]
+    private(set) var entitiesByType: [String: EntitySerializer]
 
     internal let defaultSerializers: [NSAttributeType: Serializer]
-    
+
     /// Initializes a `Parsec` instance.
     ///
     /// - parameter model:      The `NSManagedObjectModel` that describes your data model.
     /// - parameter parser:     The parser that is able to work with the API. By default a JSONAPI compliant parser is used.
     /// - parameter options:    Options for creating the `Parsec` instance. See `OptionKey`.
-    public init(model: NSManagedObjectModel, parser: APIParser? = nil, options: [OptionKey : Any]? = nil) throws {
-        
+    public init(model: NSManagedObjectModel, parser: APIParser? = nil, options: [OptionKey: Any]? = nil) throws {
+
         self.parser = parser ?? JSONAPIParser()
-        
+
         naming = ((options?[OptionKey.remoteNaming]) as? NamingConvention) ?? .snakeCase
-        serializers = ((options?[OptionKey.serializers]) as? [String : Serializer]) ?? [:]
-        defaultIdNames = ((options?[OptionKey.remoteIdNames]) as? [String]) ?? ["id" , "remoteId"]
+        serializers = ((options?[OptionKey.serializers]) as? [String: Serializer]) ?? [:]
+        defaultIdNames = ((options?[OptionKey.remoteIdNames]) as? [String]) ?? ["id", "remoteId"]
         defaultDateSerializer = ((options?[OptionKey.defaultDateSerializer]) as? Serializer) ?? ISO8601DateSerializer()
         defaultDataSerializer = ((options?[OptionKey.defaultDataSerializer]) as? Serializer) ?? Base64DataSerializer()
 
@@ -279,26 +279,26 @@ public class Parsec {
 
         self.entitiesByName = [:]
         self.entitiesByType = [:]
-        
-        var entitiesByName: [String : EntitySerializer] = [:]
-        var entitiesByType: [String : EntitySerializer] = [:]
+
+        var entitiesByName: [String: EntitySerializer] = [:]
+        var entitiesByType: [String: EntitySerializer] = [:]
         for (name, entity) in model.entitiesByName {
-            let e = try EntitySerializer(entity: entity, parsec: self)
-            entitiesByName[name] = e
-            entitiesByType[e.remoteName] = e
+            let entitySerializer = try EntitySerializer(entity: entity, parsec: self)
+            entitiesByName[name] = entitySerializer
+            entitiesByType[entitySerializer.remoteName] = entitySerializer
         }
-        
+
         self.entitiesByName = entitiesByName
         self.entitiesByType = entitiesByType
     }
-    
+
     /// Updates a `NSManagedObjectContext` with the objects described in the API response.
     ///
     /// The update is done without performing any `save` operation on the context. Also, only the attributes/relationships that have changed are modified. This means that for instance, if the object description from the API matches the content of the context, after the update, the context will be untouched.
     ///
     /// - parameter context:    The `NSManagedObjectContext` to be updated.
     /// - parameter json:       The API response to be processed.
-    public func update(_ context: NSManagedObjectContext, with json: [String : Any]) throws {
+    public func update(_ context: NSManagedObjectContext, with json: [String: Any]) throws {
         let document = try parser.parse(json: json)
         try update(context, with: document)
     }
@@ -318,7 +318,7 @@ public class Parsec {
     /// Creates an API representation of an object.
     /// - parameter object:     A `NSManagedObject`.
     /// - returns: A dictionary with the API representation of the object.
-    public func json(_ object: NSManagedObject) throws -> [String : Any] {
+    public func json(_ object: NSManagedObject) throws -> [String: Any] {
         guard let entityName = object.entity.name else {
             let message = String(format: "Entity of class '%@' has no name", object.entity.managedObjectClassName)
             throw EntitySerializerErrorCode.missingName.error(message)
@@ -335,12 +335,12 @@ public class Parsec {
     }
 
     func deserialize(document: APIDocument) throws -> [ObjectData] {
-        
+
         var objects = document.data ?? []
         if let included = document.included {
             objects.append(contentsOf: included)
         }
-        
+
         var result: [ObjectData] = []
 
         for object in objects {
@@ -348,29 +348,29 @@ public class Parsec {
                 let message = String(format: "No entity found for remote type '%@'", object.type)
                 throw EntitySerializerErrorCode.unknownType.error(message)
             }
-            
+
             let cs = try entity.deserialize(object)
             result.append(cs)
         }
-        
+
         return result
     }
-    
+
     private func objectDataFor(_ managedObject: NSManagedObject, serializer: EntitySerializer) throws -> ObjectData {
-        var attributes: [String : Any?] = [:]
+        var attributes: [String: Any?] = [:]
         for (name, _) in serializer.attributesByName {
             attributes[name] = managedObject.value(forKey: name)
         }
-        
-        var relationships: [String : RelationshipData] = [:]
-        
+
+        var relationships: [String: RelationshipData] = [:]
+
         for (name, relationship) in serializer.relationshipsByName {
             relationships[name] = RelationshipData(entitySerializer: relationship.destination,
                                                    value: managedObject.value(forKey: name))
         }
 
         let id = managedObject.value(forKey: serializer.idAttribute.name) as? AnyHashable
-        
+
         return ObjectData(id: id,
                           entitySerializer: serializer,
                           attributes: attributes,

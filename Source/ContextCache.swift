@@ -25,91 +25,91 @@
 import CoreData
 
 class ContextCache {
-    
+
     let context: NSManagedObjectContext
-    
+
     private struct EntityRequirement {
         let remoteId: String
         let ids: NSMutableSet
     }
-    
-    private var required: [NSEntityDescription : EntityRequirement] = [:]
-    private var fetched: [NSEntityDescription : [AnyHashable : NSManagedObject]] = [:]
-    
+
+    private var required: [NSEntityDescription: EntityRequirement] = [:]
+    private var fetched: [NSEntityDescription: [AnyHashable: NSManagedObject]] = [:]
+
     init(context: NSManagedObjectContext) {
         self.context = context
     }
-    
+
     func require(_ entityName: String, remoteId: String, ids: [AnyHashable]) {
         guard let entity = context.persistentStoreCoordinator?.managedObjectModel.entitiesByName[entityName] else {
             fatalError()
         }
-        
+
         if let requirement = required[entity] {
             requirement.ids.addObjects(from: ids)
         } else {
             required[entity] = EntityRequirement(remoteId: remoteId, ids: NSMutableSet(array: ids))
         }
     }
-    
+
     func fetch() throws {
-        
+
         for (entity, requirement) in required {
-            
+
             guard let entityName = entity.name else {
                 fatalError()
             }
 
             let request: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: entityName)
             request.predicate = NSPredicate(format: "%K IN %@", requirement.remoteId, requirement.ids.allObjects)
-            
-            let missing = requirement.ids.mutableCopy() as! NSMutableSet
-            
+
+            let missing = NSMutableSet(set: requirement.ids)
+
             let objects = try context.fetch(request)
-            
-            var out: [AnyHashable : NSManagedObject] = [:]
+
+            var out: [AnyHashable: NSManagedObject] = [:]
             for o in objects {
                 if let id = o.value(forKey: requirement.remoteId) as? AnyHashable {
                     out[id] = o
                     missing.remove(id)
                 }
             }
-            
+
             for id in missing {
                 guard let id = id as? AnyHashable else {
                     continue
                 }
-                
+
                 let o = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
                 o.setValue(id, forKey: requirement.remoteId)
-                
+
                 out[id] = o
             }
             fetched[entity] = out
         }
     }
-    
+
     func object(_ entity: NSEntityDescription, id: AnyHashable) throws -> NSManagedObject? {
         guard let objects = fetched[entity] else {
             return nil
         }
-        
+
         guard let result = objects[id] else {
             return nil
         }
-        
+
         return result
     }
-    
+
     func objects(_ entity: NSEntityDescription, ids: [AnyHashable]) throws -> [NSManagedObject]? {
         guard let objects = fetched[entity] else {
             return nil
         }
-        
+
         let result = ids.map { (id) -> NSManagedObject in
             return objects[id]!
         }
-        
+
         return result
     }
 }

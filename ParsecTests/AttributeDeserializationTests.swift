@@ -27,9 +27,9 @@ import CoreData
 @testable import Parsec
 
 class AttributeDeserializationTests: XCTestCase {
-    
+
     // MARK: - Non Optional Boolean tests
-    
+
     func testNonOptionalBooleanTrue() {
         do {
             let result = try testAttribute(name: "aBoolean", json: ["a_boolean": true], isOptional: false)
@@ -39,7 +39,7 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testNonOptionalBooleanFalse() {
         do {
             let result = try testAttribute(name: "aBoolean", json: ["a_boolean": false], isOptional: false)
@@ -49,27 +49,27 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testNonOptionalBooleanNull() {
         do {
-            let _ = try testAttribute(name: "aBoolean", json: ["a_boolean": NSNull()], isOptional: false)
+            _ = try testAttribute(name: "aBoolean", json: ["a_boolean": NSNull()], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkAttributeSerializer(error, is: .nullInNonOptional))
         }
     }
-    
+
     func testNonOptionalBooleanString() {
         do {
-            let _ = try testAttribute(name: "aBoolean", json: ["a_boolean": "fail"], isOptional: false)
+            _ = try testAttribute(name: "aBoolean", json: ["a_boolean": "fail"], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .unexpectedObject))
         }
     }
-    
+
     // MARK: - Optional Boolean tests
-    
+
     func testOptionalBooleanTrue() {
         do {
             let result = try testAttribute(name: "aBoolean", json: ["a_boolean": true], isOptional: true)
@@ -79,7 +79,7 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testOptionalBooleanFalse() {
         do {
             let result = try testAttribute(name: "aBoolean", json: ["a_boolean": false], isOptional: true)
@@ -89,7 +89,7 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testOptionalBooleanNull() {
         do {
             let result = try testAttribute(name: "aBoolean", json: ["a_boolean": NSNull()], isOptional: true)
@@ -98,18 +98,18 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testOptionalBooleanString() {
         do {
-            let _ = try testAttribute(name: "aBoolean", json: ["a_boolean": "fail"], isOptional: true)
+            _ = try testAttribute(name: "aBoolean", json: ["a_boolean": "fail"], isOptional: true)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .unexpectedObject))
         }
     }
-    
+
     // MARK: - Non Optional Double tests
-    
+
     func testNonOptionalDouble() {
         do {
             let x: Double = 3.14
@@ -121,27 +121,27 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testNonOptionalDoubleNull() {
         do {
-            let _ = try testAttribute(name: "aDouble", json: ["a_double": NSNull()], isOptional: false)
+            _ = try testAttribute(name: "aDouble", json: ["a_double": NSNull()], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkAttributeSerializer(error, is: .nullInNonOptional))
         }
     }
-    
+
     func testNonOptionalDoubleString() {
         do {
-            let _ = try testAttribute(name: "aDouble", json: ["a_double": "fail"], isOptional: false)
+            _ = try testAttribute(name: "aDouble", json: ["a_double": "fail"], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .unexpectedObject))
         }
     }
-    
+
     // MARK: - Optional Double tests
-    
+
     func testOptionalDouble() {
         do {
             let x: Double = 3.14
@@ -153,7 +153,7 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testOptionalDoubleNull() {
         do {
             let result = try testAttribute(name: "aDouble", json: ["a_double": NSNull()], isOptional: true)
@@ -162,85 +162,85 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testOptionalDoubleString() {
         do {
-            let _ = try testAttribute(name: "aDouble", json: ["a_double": "fail"], isOptional: true)
+            _ = try testAttribute(name: "aDouble", json: ["a_double": "fail"], isOptional: true)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .unexpectedObject))
         }
     }
-    
+
     // MARK: - Integer Overflow tests
-    
+
     func testNonOptionalInt16PositiveOverflow() {
         do {
-            let _ = try testAttribute(name: "anInteger16", json: ["an_integer16": Int(INT16_MAX) + 1], isOptional: false)
+            _ = try testAttribute(name: "anInteger16", json: ["an_integer16": Int(INT16_MAX) + 1], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .failed))
         }
     }
-    
+
     func testNonOptionalInt16NegativeOverflow() {
         do {
-            let _ = try testAttribute(name: "anInteger16", json: ["an_integer16": Int(INT16_MIN) - 1], isOptional: false)
+            _ = try testAttribute(name: "anInteger16", json: ["an_integer16": Int(INT16_MIN) - 1], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .failed))
         }
     }
-    
+
     func testNonOptionalInt32PositiveOverflow() {
         do {
-            let _ = try testAttribute(name: "anInteger32", json: ["an_integer32": Int(INT32_MAX) + 1], isOptional: false)
+            _ = try testAttribute(name: "anInteger32", json: ["an_integer32": Int(INT32_MAX) + 1], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .failed))
         }
     }
-    
+
     func testNonOptionalInt32NegativeOverflow() {
         do {
-            let _ = try testAttribute(name: "anInteger32", json: ["an_integer32": -(Int(INT32_MAX) + 1)], isOptional: false)
+            _ = try testAttribute(name: "anInteger32", json: ["an_integer32": -(Int(INT32_MAX) + 1)], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .failed))
         }
     }
-    
+
     // MARK: - Integer tests
-    
+
     func testNonOptionalInt16Real() {
         do {
-            let _ = try testAttribute(name: "anInteger16", json: ["an_integer16": 3.14], isOptional: false)
+            _ = try testAttribute(name: "anInteger16", json: ["an_integer16": 3.14], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .failed))
         }
     }
-    
+
     func testNonOptionalInt32Real() {
         do {
-            let _ = try testAttribute(name: "anInteger32", json: ["an_integer32": 3.14], isOptional: false)
+            _ = try testAttribute(name: "anInteger32", json: ["an_integer32": 3.14], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .failed))
         }
     }
-    
+
     func testNonOptionalInt64Real() {
         do {
-            let _ = try testAttribute(name: "anInteger64", json: ["an_integer64": 3.14], isOptional: false)
+            _ = try testAttribute(name: "anInteger64", json: ["an_integer64": 3.14], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .failed))
         }
     }
-    
+
     // MARK: - Date tests
-    
+
     func testNonOptionalDate() {
         do {
             let dateSerializer = ISO8601DateFormatter()
@@ -251,23 +251,23 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testNonOptionalDateError() {
         do {
-            let _ = try testAttribute(name: "aDate", json: ["a_date": "lorem"], isOptional: false)
+            _ = try testAttribute(name: "aDate", json: ["a_date": "lorem"], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .failed))
         }
     }
-    
+
     // MARK: - Data tests
-    
+
     func testNonOptionalData() {
         do {
             let result = try testAttribute(name: "aData", json: ["a_data": "dGVzdGluZw=="], isOptional: false)
             XCTAssert(result is Data)
-            
+
             let data = result as! Data
             let string = String(data: data, encoding: .utf8)
             XCTAssert(string == "testing")
@@ -275,18 +275,18 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testNonOptionalDataError() {
         do {
-            let _ = try testAttribute(name: "aData", json: ["a_data": "lorem"], isOptional: false)
+            _ = try testAttribute(name: "aData", json: ["a_data": "lorem"], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .failed))
         }
     }
-    
+
     // MARK: - URI tests
-    
+
     func testNonOptionalURI() {
         do {
             let result = try testAttribute(name: "anURI", json: ["an_uri": "http://jsonapi.org"], isOptional: false)
@@ -295,42 +295,42 @@ class AttributeDeserializationTests: XCTestCase {
             XCTAssert(false, (error as NSError).localizedDescription)
         }
     }
-    
+
     func testNonOptionalURIError() {
         do {
-            let _ = try testAttribute(name: "anURI", json: ["an_uri": "tfr;\\re"], isOptional: false)
+            _ = try testAttribute(name: "anURI", json: ["an_uri": "tfr;\\re"], isOptional: false)
             XCTAssert(false)
         } catch let error {
             XCTAssert(checkSerializer(error, is: .failed))
         }
     }
-    
+
     // MARK: - Private methods
-    
-    private func testAttribute(name: String, json: [String : Any], isOptional: Bool) throws -> Any? {
-        
+
+    private func testAttribute(name: String, json: [String: Any], isOptional: Bool) throws -> Any? {
+
         if isOptional {
             let context = TestTools.shared.createContext(with: "Test_2_optionals")
             guard let model = context.persistentStoreCoordinator?.managedObjectModel else {
                 XCTAssert(false)
                 return nil
             }
-            
+
             let parsec = try! Parsec(model: model)
             let entity = parsec.entitiesByName["Entity2A"]!
             guard let attribute = entity.attributesByName[name] else {
                 XCTAssert(false)
                 return nil
             }
-            
+
             guard let val = json[attribute.remoteName] else {
                 XCTAssert(false)
                 return nil
             }
-            
+
             let jsonAttribute = try APIAttribute(value: val)
             return try attribute.deserialize(jsonAttribute)
-            
+
         } else {
             let context = TestTools.shared.createContext(with: "Test_1_non_optionals")
             XCTAssert(context.persistentStoreCoordinator?.managedObjectModel != nil)
@@ -339,7 +339,7 @@ class AttributeDeserializationTests: XCTestCase {
                 XCTAssert(false)
                 return nil
             }
-            
+
             let parsec = try! Parsec(model: model)
             let entity = parsec.entitiesByName["Entity1A"]!
 
@@ -352,12 +352,12 @@ class AttributeDeserializationTests: XCTestCase {
                 XCTAssert(false)
                 return nil
             }
-            
+
             let jsonAttribute = try APIAttribute(value: val)
             return try attribute.deserialize(jsonAttribute)
         }
     }
-    
+
     // MARK: - Private methods
 
     private func checkSerializer(_ error: Error, is code: SerializerErrorCode) -> Bool {

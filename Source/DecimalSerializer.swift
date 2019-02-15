@@ -28,7 +28,9 @@ public class DecimalSerializer: Serializer {
 
     public func serialize(_ object: Any) throws -> APIAttribute {
         guard let numericValue = object as? NSNumber else {
-            throw NSError(domain: "DecimalSerializer", code: SerializerErrorCode.unexpectedObject.rawValue, userInfo: nil)
+            throw NSError(domain: "DecimalSerializer",
+                          code: SerializerErrorCode.unexpectedObject.rawValue,
+                          userInfo: nil)
         }
 
         return try APIAttribute(value: numericValue)
@@ -37,14 +39,16 @@ public class DecimalSerializer: Serializer {
     public func deserialize(_ value: APIAttribute) throws -> Any? {
 
         switch value {
-        case .number(let n):
-            return NSDecimalNumber(value: n.doubleValue)
+        case .number(let number):
+            return NSDecimalNumber(value: number.doubleValue)
 
         case .null:
             return nil
 
         default:
-            throw NSError(domain: "DecimalSerializer", code: SerializerErrorCode.unexpectedObject.rawValue, userInfo: nil)
+            throw NSError(domain: "DecimalSerializer",
+                          code: SerializerErrorCode.unexpectedObject.rawValue,
+                          userInfo: nil)
         }
     }
 }

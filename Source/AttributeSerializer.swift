@@ -32,9 +32,9 @@ enum AttributeSerializerErrorCode: Int {
     case unexpectedType
     case invalidDateFormat
     case invalidDataFormat
-    
+
     func error(_ message: String) -> NSError {
-        return NSError(domain: "Parsec.AttributeSerializer", code: self.rawValue, userInfo: [NSLocalizedDescriptionKey : message])
+        return NSError(domain: "Parsec.AttributeSerializer", code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: message])
     }
 }
 
@@ -45,29 +45,29 @@ class AttributeSerializer {
     let serializer: Serializer
     weak var entity: EntitySerializer?
     let isOptional: Bool
-    
+
     enum ErrorCode: Int {
         case modelNotSet
     }
-    
+
     init(attribute: NSAttributeDescription, entity: EntitySerializer) throws {
         self.entity = entity
-        
+
         guard let parsec = entity.parsec else {
             throw AttributeSerializerErrorCode.internalError.error("Model not set")
         }
-        
+
         self.isOptional = attribute.isOptional
         self.entity = entity
         self.name = attribute.name
         self.attributeType = attribute.attributeType
-        
+
         if let remoteName = attribute.userInfo?[UserInfoKey.remoteName.rawValue] as? String {
             self.remoteName = remoteName
         } else {
             self.remoteName = parsec.naming.from(name)
         }
-        
+
         // serializer
         if
             let serializerName = attribute.userInfo?[UserInfoKey.serializer.rawValue] as? String,
@@ -80,7 +80,7 @@ class AttributeSerializer {
             throw AttributeSerializerErrorCode.internalError.error("No default serializer for type \(attributeType.name)")
         }
     }
-    
+
     func serialize(_ value: Any?) throws -> APIAttribute {
         guard let value = value else {
             return .null
@@ -88,7 +88,7 @@ class AttributeSerializer {
 
         return try serializer.serialize(value)
     }
-    
+
     func deserialize(_ apiAttribute: APIAttribute) throws -> Any? {
 
         switch apiAttribute {
@@ -96,13 +96,13 @@ class AttributeSerializer {
         default: return try serializer.deserialize(apiAttribute)
         }
     }
-    
+
     private var path: String {
         return "\(entity?.name ?? "-").\(name)"
     }
-    
+
     private func nullOrThrow(_ apiAttribute: APIAttribute) throws -> Any? {
-        
+
         switch apiAttribute {
         case .null:
             if !isOptional {
@@ -112,13 +112,13 @@ class AttributeSerializer {
                 let null: Any? = nil
                 return null
             }
-            
+
         default:
             let valueString = (apiAttribute.value as? NSObject)?.description ?? "-"
             let message = String(format: "Cannot set '%@' to attribute '%@' (%@)", valueString, path, attributeType.name)
             throw AttributeSerializerErrorCode.unexpectedType.error(message)
         }
-    }    
+    }
 }
 
 extension NSAttributeType {

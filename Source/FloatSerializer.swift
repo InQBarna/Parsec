@@ -37,8 +37,8 @@ public class FloatSerializer: Serializer {
     public func deserialize(_ value: APIAttribute) throws -> Any? {
 
         switch value {
-        case .number(let n):
-            return NSNumber(floatLiteral: n.doubleValue)
+        case .number(let number):
+            return NSNumber(floatLiteral: number.doubleValue)
 
         case .null:
             return nil

@@ -25,14 +25,14 @@
 import XCTest
 
 class SerializerTests: XCTestCase {
-    
+
     func testDeserialize() {
-        
+
         let date = Date(timeIntervalSince1970: 0)
         let value = "1970-01-01T00:00:00Z"
-        
+
         let dateSerializer = ISO8601DateSerializer()
-        
+
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try dateSerializer.deserialize(apiAttribute)
@@ -43,14 +43,14 @@ class SerializerTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     func testDeserializeUnexpected() {
-        
+
         let dateSerializer = ISO8601DateSerializer()
-        
+
         do {
             let apiAttribute = try APIAttribute(value: 123)
-            let _ = try dateSerializer.deserialize(apiAttribute)
+            _ = try dateSerializer.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
             XCTAssert(check(error, is: .unexpectedObject))
@@ -58,7 +58,7 @@ class SerializerTests: XCTestCase {
     }
 
     // MARK: - Private methods
-    
+
     private func check(_ error: Error, is code: SerializerErrorCode) -> Bool {
         return (error as NSError).code == code.rawValue
     }

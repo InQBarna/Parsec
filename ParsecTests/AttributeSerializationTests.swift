@@ -27,38 +27,38 @@ import CoreData
 @testable import Parsec
 
 class AttributeSerializationTests: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testExample() {
-        
+
         let context = TestTools.shared.createContext(with: "Test_2_optionals")
         guard let model = context.persistentStoreCoordinator?.managedObjectModel else {
             XCTAssert(false)
             return
         }
-        
+
         let parsec = try! Parsec(model: model)
         let entity = TestTools.shared.entity2A(id: "1", max: 1, context: context)
-                
+
         let json = try! parsec.json(entity)
-        
+
         let data = try! JSONSerialization.data(withJSONObject: json, options: [.prettyPrinted])
         let txt = String(data: data, encoding: .utf8)!
         NSLog(txt)
-        
+
         XCTAssert((json["id"] as! String) == "1")
         XCTAssert((json["type"] as! String) == "entity2_a")
-        
-        let attributes = json["attributes"] as! [String : Any]
+
+        let attributes = json["attributes"] as! [String: Any]
 
         XCTAssert((attributes["a_double"] as! NSNumber) == entity.aDouble)
         XCTAssert((attributes["a_decimal"] as! NSNumber) == entity.aDecimal)
@@ -71,5 +71,5 @@ class AttributeSerializationTests: XCTestCase {
         XCTAssert((attributes["a_string"] as! String) == entity.aString)
         XCTAssert((attributes["a_data"] as! String) == "SGkgdGhlcmUh")
     }
-    
+
 }

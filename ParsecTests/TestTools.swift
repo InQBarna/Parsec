@@ -37,26 +37,26 @@ class TestTools {
         let model = NSManagedObjectModel(contentsOf: url)!
         let psc = NSPersistentStoreCoordinator(managedObjectModel: model)
         //let path = NSTemporaryDirectory().appending("/test.sqlite")
-        let _ = try! psc.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: [:])
+        _ = try! psc.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil, options: [:])
         let result = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
         result.persistentStoreCoordinator = psc
-        
+
         return result
     }
-    
-    func loadJson(_ name: String) -> [String : Any] {
-        
+
+    func loadJson(_ name: String) -> [String: Any] {
+
         let dataUrl = Bundle.main.url(forResource: name, withExtension: "json")!
         let data = try! Data(contentsOf: dataUrl)
-        let result = try! JSONSerialization.jsonObject(with: data, options: []) as! [String : Any]
+        let result = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         return result
     }
-    
-    func jsonEntity2A(id: String, max: Int) -> [String : Any] {
-        
+
+    func jsonEntity2A(id: String, max: Int) -> [String: Any] {
+
         let date = Date(timeIntervalSinceNow: TimeInterval(arc4random_uniform(1000000)))
         let dateFormatter = ISO8601DateFormatter()
-        let attributes: [String : Any] = ["a_boolean": (arc4random() % 2) == 0 ? true : false,
+        let attributes: [String: Any] = ["a_boolean": (arc4random() % 2) == 0 ? true : false,
                                           "a_date": dateFormatter.string(from: date),
                                           "a_decimal": Double(arc4random()) / 0xFFFFFFFF,
                                           "a_double": Double(arc4random()) / 0xFFFFFFFF,
@@ -65,42 +65,41 @@ class TestTools {
                                           "an_integer64": Int64(arc4random()),
                                           "a_string": "lorem ipsum",
                                           "an_uuid": UUID().uuidString,
-                                          "an_uri": "https://jsonapi.org",
+                                          "an_uri": "https://jsonapi.org"
                                           //"a_float": 3.456
         ]
-        
+
         let m = UInt32(max)
         let toOne = rio(id: String((arc4random() % m) + 1), type: "entity2_b")
-        
-        var toMany: [[String : Any]] = []
-        
+
+        var toMany: [[String: Any]] = []
+
         for _ in 0..<((arc4random() % 100)) {
             let r = rio(id: String((arc4random() % m) + 1), type: "entity2_b")
             toMany.append(r)
         }
-        
-        
-        var toManyOrdered: [[String : Any]] = []
-        
+
+        var toManyOrdered: [[String: Any]] = []
+
         for _ in 0..<((arc4random() % 100)) {
             let r = rio(id: String((arc4random() % m) + 1), type: "entity2_b")
             toManyOrdered.append(r)
         }
-        
-        let relationships: [String : Any] = ["to_one": ["data" : toOne],
-                                             "to_many":["data" : toMany],
-                                             "to_many_ordered": ["data" : toManyOrdered]]
-        
-        let json: [String : Any] = ["type" : "entity2_a",
-                                    "id" : id,
-                                    "attributes" : attributes,
-                                    "relationships" : relationships]
-        
+
+        let relationships: [String: Any] = ["to_one": ["data": toOne],
+                                             "to_many": ["data": toMany],
+                                             "to_many_ordered": ["data": toManyOrdered]]
+
+        let json: [String: Any] = ["type": "entity2_a",
+                                    "id": id,
+                                    "attributes": attributes,
+                                    "relationships": relationships]
+
         return json
     }
 
     func entity2A(id: String, max: Int, context: NSManagedObjectContext) -> Entity2A {
-        
+
         let result = NSEntityDescription.insertNewObject(forEntityName: "Entity2A", into: context) as! Entity2A
         result.id = id
         result.aData = Data(base64Encoded: "SGkgdGhlcmUh")!
@@ -114,20 +113,20 @@ class TestTools {
         result.aString = "lorem ipsum"
         result.anUUID = UUID()
         result.anURI = URL(string: "https://jsonapi.org")!
-        
+
         let toOne = NSEntityDescription.insertNewObject(forEntityName: "Entity2B", into: context) as! Entity2B
         toOne.id = id
         result.toOne = toOne
-        
+
         var toMany: [Entity2B] = []
-        
+
         for i in 0..<((arc4random() % 100)) {
             let r = NSEntityDescription.insertNewObject(forEntityName: "Entity2B", into: context) as! Entity2B
             r.id = String(format: "%@-%d-toMany", id, i)
             toMany.append(r)
         }
         result.toMany = NSSet(array: toMany)
-        
+
         var toManyOrdered: [Entity2B] = []
         for i in 0..<((arc4random() % 100)) {
             let r = NSEntityDescription.insertNewObject(forEntityName: "Entity2B", into: context) as! Entity2B
@@ -139,8 +138,8 @@ class TestTools {
         return result
     }
 
-    private func rio(id: String, type: String) -> [String : Any] {
-        return ["id" : id,
-                "type" : "entity2_b"]
+    private func rio(id: String, type: String) -> [String: Any] {
+        return ["id": id,
+                "type": "entity2_b"]
     }
 }

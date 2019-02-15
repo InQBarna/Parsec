@@ -35,9 +35,9 @@ enum EntitySerializerErrorCode: Int {
     case typeMissmatch
     case unknownType
     case unknownEntity
-    
+
     func error(_ message: String) -> NSError {
-        return NSError(domain: "Parsec.EntitySerializer", code: self.rawValue, userInfo: [NSLocalizedDescriptionKey : message])
+        return NSError(domain: "Parsec.EntitySerializer", code: self.rawValue, userInfo: [NSLocalizedDescriptionKey: message])
     }
 }
 
@@ -45,26 +45,26 @@ class EntitySerializer: NSObject {
     let name: String
     let remoteName: String
     private(set) var idAttribute: AttributeSerializer!
-    private(set) var attributesByName: [String : AttributeSerializer]!
-    private(set) var relationshipsByName: [String : RelationshipSerializer]!
+    private(set) var attributesByName: [String: AttributeSerializer]!
+    private(set) var relationshipsByName: [String: RelationshipSerializer]!
     weak var parsec: Parsec?
-    
+
     init(entity: NSEntityDescription, parsec: Parsec) throws {
         guard let name = entity.name else {
             let message = String(format: "Entity of class '%@' has no name", entity.managedObjectClassName)
             throw EntitySerializerErrorCode.missingName.error(message)
         }
-        
+
         self.name = name
         self.remoteName = (entity.userInfo?[UserInfoKey.remoteName.rawValue] as? String) ?? parsec.naming.from(name)
         self.parsec = parsec
-        
+
         super.init()
-        
+
         // Id and ignored attributes
         var ignoredAttributes: [String] = []
-        var idAttribute: AttributeSerializer? = nil
-        
+        var idAttribute: AttributeSerializer?
+
         for (name, attribute) in entity.attributesByName {
             guard ((attribute.userInfo?[UserInfoKey.ignore.rawValue] as? String) ?? "false") != "true" else {
                 ignoredAttributes.append(name)
@@ -80,7 +80,7 @@ class EntitySerializer: NSObject {
                 break
             }
         }
-        
+
         if let idAttribute = idAttribute {
             self.idAttribute = idAttribute
         } else {
@@ -107,7 +107,7 @@ class EntitySerializer: NSObject {
         ignoredAttributes.append(self.idAttribute.name)
 
         // Attributes
-        var attributesByName: [String : AttributeSerializer] = [:]
+        var attributesByName: [String: AttributeSerializer] = [:]
 
         for (name, attribute) in entity.attributesByName {
             guard !ignoredAttributes.contains(name) else {
@@ -117,48 +117,47 @@ class EntitySerializer: NSObject {
         }
         self.attributesByName = attributesByName
 
-        
         // Relationships
-        var relationshipsByName: [String : RelationshipSerializer] = [:]
-        
+        var relationshipsByName: [String: RelationshipSerializer] = [:]
+
         for (name, relationship) in entity.relationshipsByName {
             guard ((relationship.userInfo?[UserInfoKey.ignore.rawValue] as? String) ?? "false") != "true" else {
                 continue
             }
             relationshipsByName[name] = try RelationshipSerializer(relationship: relationship, entity: self)
         }
-        
+
         self.relationshipsByName = relationshipsByName
     }
 
     func serialize(_ object: ObjectData) throws -> APIObject {
-    
-        var attributes: [String : APIAttribute] = [:]
-        
+
+        var attributes: [String: APIAttribute] = [:]
+
         for (name, serializer) in attributesByName {
 
             let v = object.attributes[name]!
-            
+
             if v == nil || v is NSNull {
                 attributes[serializer.remoteName] = .null
                 continue
             }
-            
+
             let value = v!
             attributes[serializer.remoteName] = try serializer.serialize(value)
         }
 
-        var relationships: [String : APIRelationship] = [:]
-        
+        var relationships: [String: APIRelationship] = [:]
+
         for (name, serializer) in relationshipsByName {
             guard let relData = object.relationships[name] else {
                 fatalError()
             }
-            
+
             relationships[serializer.remoteName] = try serializer.serialize(relData)
         }
 
-        var id: AnyHashable? = nil
+        var id: AnyHashable?
 
         if
             let objectId = object.id,
@@ -172,34 +171,34 @@ class EntitySerializer: NSObject {
                          attributes: attributes,
                          relationships: relationships)
     }
-    
+
     func deserialize(_ object: APIObject) throws -> ObjectData {
-        
+
         guard object.type == remoteName else {
             let message = String(format: "Missmatch in type. Found '%@', expected '%@'", object.type, remoteName)
             throw EntitySerializerErrorCode.typeMissmatch.error(message)
         }
-        
-        var validatedAttributes: [String : Any?] = [:]
-        
+
+        var validatedAttributes: [String: Any?] = [:]
+
         for (name, attribute) in self.attributesByName {
             guard name != idAttribute.name else {
                 continue
             }
-            
+
             if let value = object.attributes[attribute.remoteName] {
                 validatedAttributes[name] = try attribute.deserialize(value)
             }
         }
-        
-        var validatedRelationships: [String : RelationshipData] = [:]
-        
+
+        var validatedRelationships: [String: RelationshipData] = [:]
+
         for (name, relationship) in self.relationshipsByName {
             if let rel = object.relationships[relationship.remoteName] {
                 validatedRelationships[name] = try relationship.deserialize(rel)
             }
         }
-        
+
         return ObjectData(id: object.id,
                           entitySerializer: self,
                           attributes: validatedAttributes,

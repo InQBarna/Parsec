@@ -28,35 +28,35 @@ import CoreData
 @testable import Parsec
 
 class OpenApiSpecTests: XCTestCase {
-    
+
     func testExample() {
         let context = TestTools.shared.createContext(with: "Test_2_optionals")
         let model = context.persistentStoreCoordinator!.managedObjectModel
-        
+
         do {
             let openApi = try OpenAPISpec(model: model, template: nil)
             let spec = try openApi.generate()
             let path = NSTemporaryDirectory() + "spec.yaml"
-            
+
             try spec.write(toFile: path, atomically: true, encoding: .utf8)
-            
+
             print("Spec is here: \(path)")
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     func testPerformanceExample() {
         let context = TestTools.shared.createContext(with: "Test_2_optionals")
         let model = context.persistentStoreCoordinator!.managedObjectModel
         let openApi = try! OpenAPISpec(model: model, template: nil)
         self.measure {
             do {
-                let _ = try openApi.generate()
+                _ = try openApi.generate()
             } catch {
-                
+
             }
         }
     }
-    
+
 }

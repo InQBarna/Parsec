@@ -27,10 +27,10 @@ import CoreData
 @testable import Parsec
 
 class EntitySerializerTests: XCTestCase {
-    
+
     func entitySerializerTest() {
-        
-        let attributes: [String : APIAttribute] = ["a_boolean": try! APIAttribute(value: true),
+
+        let attributes: [String: APIAttribute] = ["a_boolean": try! APIAttribute(value: true),
                                           "a_date": try! APIAttribute(value: "2018-01-23T03:06:46Z"),
                                           "a_decimal": try! APIAttribute(value: 1.65),
                                           "a_double": try! APIAttribute(value: 2.323),
@@ -41,20 +41,20 @@ class EntitySerializerTests: XCTestCase {
                                           "a_string": try! APIAttribute(value: "lorem ipsum"),
                                           "an_uuid": try! APIAttribute(value: "b8c01b3c-525a-4e33-ab02-6d8cdbd1e427"),
                                           "an_uri": try! APIAttribute(value: "https://jsonapi.org")]
-        let relationships: [String : APIRelationship] = ["to_one": APIRelationship(type: "entity2_b", value: .toOne(id: "1")),
+        let relationships: [String: APIRelationship] = ["to_one": APIRelationship(type: "entity2_b", value: .toOne(id: "1")),
                                                           "to_many": APIRelationship(type: "entity2_b", value: .toMany(ids: ["1", "2", "3"]))]
-        
+
         let object = APIObject(type: "entity2_a", id: "1", attributes: attributes, relationships: relationships)
-        
+
         let context = TestTools.shared.createContext(with: "Test_2_optionals")
         let model = context.persistentStoreCoordinator!.managedObjectModel
         XCTAssert(context.persistentStoreCoordinator?.managedObjectModel != nil)
-        
+
         do {
             let parsec = try Parsec(model: model)
             let entity = parsec.entitiesByName["Entity2A"]!
             let objectChanges = try entity.deserialize(object)
-            
+
             XCTAssert(objectChanges.entitySerializer == entity)
             XCTAssert(objectChanges.id is String)
             XCTAssert(objectChanges.id as! String == "1")

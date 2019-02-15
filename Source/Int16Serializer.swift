@@ -42,14 +42,14 @@ public class Int16Serializer: Serializer {
     public func deserialize(_ value: APIAttribute) throws -> Any? {
 
         switch value {
-        case .number(let n):
-            guard !n.isReal() else {
+        case .number(let number):
+            guard !number.isReal() else {
                 throw NSError(domain: "Int16Serializer",
                               code: SerializerErrorCode.failed.rawValue,
-                              userInfo: [NSLocalizedDescriptionKey: "Could not deserialize \(n.doubleValue) into a Int16"])
+                              userInfo: [NSLocalizedDescriptionKey: "Could not deserialize \(number.doubleValue) into a Int16"])
             }
 
-            let intValue = n.intValue
+            let intValue = number.intValue
             guard
                 intValue <= INT16_MAX,
                 intValue >= INT16_MIN

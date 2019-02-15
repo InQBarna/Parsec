@@ -63,7 +63,7 @@ class ISO8601DateSerializerTests: XCTestCase {
 
         do {
             let apiAttribute = try APIAttribute(value: 1234)
-            let _ = try sut.deserialize(apiAttribute)
+            _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
@@ -77,7 +77,7 @@ class ISO8601DateSerializerTests: XCTestCase {
 
         do {
             let apiAttribute = try APIAttribute(value: value)
-            let _ = try sut.deserialize(apiAttribute)
+            _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .failed))
@@ -106,7 +106,7 @@ class ISO8601DateSerializerTests: XCTestCase {
         let sut = ISO8601DateSerializer()
 
         do {
-            let _ = try sut.serialize(123)
+            _ = try sut.serialize(123)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))

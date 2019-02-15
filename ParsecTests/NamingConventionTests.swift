@@ -24,46 +24,46 @@
 import XCTest
 
 class NamingConventionTests: XCTestCase {
-    
+
     func testNone() {
-        
+
         let convention = NamingConvention.none
-        
+
         let dictionary = ["test", "value", "oneTwo", "one-Two", "one_two"]
-        
+
         for word in dictionary {
             XCTAssert(convention.from(word) == word)
         }
     }
 
     func testSnakeCase() {
-        
+
         let convention = NamingConvention.snakeCase
-        
-        let dictionary = ["test" : "test",
-                          "value" : "value",
-                          "oneTwo" : "one_two",
-                          "one_two" : "one_two",
-                          "oneTwoThree" : "one_two_three",
-                          "one2Three" : "one2_three"]
-        
+
+        let dictionary = ["test": "test",
+                          "value": "value",
+                          "oneTwo": "one_two",
+                          "one_two": "one_two",
+                          "oneTwoThree": "one_two_three",
+                          "one2Three": "one2_three"]
+
         for (word, result) in dictionary {
             let r = convention.from(word)
             XCTAssert(r == result)
         }
     }
-    
+
     func testHyphen() {
-        
+
         let convention = NamingConvention.hyphen
-        
-        let dictionary = ["test" : "test",
-                          "value" : "value",
-                          "oneTwo" : "one-two",
-                          "one_two" : "one_two",
-                          "oneTwoThree" : "one-two-three",
-                          "one2Three" : "one2-three"]
-        
+
+        let dictionary = ["test": "test",
+                          "value": "value",
+                          "oneTwo": "one-two",
+                          "one_two": "one_two",
+                          "oneTwoThree": "one-two-three",
+                          "one2Three": "one2-three"]
+
         for (word, result) in dictionary {
             let r = convention.from(word)
             XCTAssert(r == result)

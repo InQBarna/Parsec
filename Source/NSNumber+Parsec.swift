@@ -29,13 +29,13 @@ extension NSNumber {
         let encoding = String(cString: self.objCType)
         return encoding == "d"
     }
-    
+
     func isFloat() -> Bool {
         let encoding = String(cString: self.objCType)
         return encoding == "f"
     }
-    
+
     func isReal() -> Bool {
         return isDouble() || isFloat()
-    }    
+    }
 }

@@ -63,7 +63,7 @@ class UnixTimestampSerializerTests: XCTestCase {
 
         do {
             let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
-            let _ = try sut.deserialize(apiAttribute)
+            _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
@@ -92,7 +92,7 @@ class UnixTimestampSerializerTests: XCTestCase {
         let sut = UnixTimestampSerializer()
 
         do {
-            let _ = try sut.serialize(123)
+            _ = try sut.serialize(123)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))

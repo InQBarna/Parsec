@@ -27,27 +27,27 @@ import CoreData
 @testable import Parsec
 
 class RelationshipTests: XCTestCase {
-    
+
     // MARK: - To One
-    
+
     func testToOne() {
         let context = TestTools.shared.createContext(with: "Test_2_optionals")
         guard let model = context.persistentStoreCoordinator?.managedObjectModel else {
             XCTAssert(false)
             return
         }
-        
+
         do {
             let parsec = try Parsec(model: model)
-            
+
             let entity = parsec.entitiesByName["Entity2A"]!
             guard let relationship = entity.relationshipsByName["toOne"] else {
                 XCTAssert(false)
                 return
             }
-            
+
             let json = APIRelationship(type: "entity2_b", value: .toOne(id: "1"))
-            
+
             let r = try relationship.deserialize(json)
             XCTAssert(r.entitySerializer.name == "Entity2B")
             XCTAssert(r.value is String)
@@ -56,9 +56,9 @@ class RelationshipTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     // MARK: - To Many
-    
+
     func testToMany() {
         let context = TestTools.shared.createContext(with: "Test_2_optionals")
         guard let model = context.persistentStoreCoordinator?.managedObjectModel else {
@@ -67,15 +67,15 @@ class RelationshipTests: XCTestCase {
         }
         do {
             let parsec = try Parsec(model: model)
-            
+
             let entity = parsec.entitiesByName["Entity2A"]!
             guard let relationship = entity.relationshipsByName["toMany"] else {
                 XCTAssert(false)
                 return
             }
-            
+
             let json = APIRelationship(type: "entity2_b", value: .toMany(ids: ["1", "2", "3", "4"]))
-            
+
             let r = try relationship.deserialize(json)
             XCTAssert(r.entitySerializer.name == "Entity2B")
             XCTAssert(r.value is NSSet)
@@ -84,7 +84,7 @@ class RelationshipTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     func testToManyOrdered() {
         let context = TestTools.shared.createContext(with: "Test_2_optionals")
         guard let model = context.persistentStoreCoordinator?.managedObjectModel else {
@@ -93,15 +93,15 @@ class RelationshipTests: XCTestCase {
         }
         do {
             let parsec = try Parsec(model: model)
-            
+
             let entity = parsec.entitiesByName["Entity2A"]!
             guard let relationship = entity.relationshipsByName["toManyOrdered"] else {
                 XCTAssert(false)
                 return
             }
-            
+
             let json = APIRelationship(type: "entity2_b", value: .toMany(ids: ["1", "2", "3", "4"]))
-            
+
             let r = try relationship.deserialize(json)
             XCTAssert(r.entitySerializer.name == "Entity2B")
             XCTAssert(r.value is NSOrderedSet)
@@ -110,9 +110,9 @@ class RelationshipTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
+
     // MARK: - Private methods
-    
+
     private func check(_ error: Error, is code: RelationshipSerializerErrorCode) -> Bool {
         return (error as NSError).code == code.rawValue
     }

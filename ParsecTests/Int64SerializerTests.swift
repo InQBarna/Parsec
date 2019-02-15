@@ -61,7 +61,7 @@ class Int64SerializerTests: XCTestCase {
 
         do {
             let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
-            let _ = try sut.deserialize(apiAttribute)
+            _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
@@ -75,7 +75,7 @@ class Int64SerializerTests: XCTestCase {
 
         do {
             let apiAttribute = try APIAttribute(value: value)
-            let _ = try sut.deserialize(apiAttribute)
+            _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .failed))
@@ -102,7 +102,7 @@ class Int64SerializerTests: XCTestCase {
         let sut = Int64Serializer()
 
         do {
-            let _ = try sut.serialize("lorem ipsum dolor est")
+            _ = try sut.serialize("lorem ipsum dolor est")
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
@@ -114,7 +114,7 @@ class Int64SerializerTests: XCTestCase {
         let sut = Int64Serializer()
 
         do {
-            let _ = try sut.serialize(123.5)
+            _ = try sut.serialize(123.5)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .failed))
