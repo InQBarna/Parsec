@@ -55,7 +55,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "aBoolean", json: ["a_boolean": NSNull()], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .nullInNonOptional))
+            XCTAssert(checkAttributeSerializer(error, is: .nullInNonOptional))
         }
     }
     
@@ -64,7 +64,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "aBoolean", json: ["a_boolean": "fail"], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .unexpectedType))
+            XCTAssert(checkSerializer(error, is: .unexpectedObject))
         }
     }
     
@@ -104,7 +104,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "aBoolean", json: ["a_boolean": "fail"], isOptional: true)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .unexpectedType))
+            XCTAssert(checkSerializer(error, is: .unexpectedObject))
         }
     }
     
@@ -127,7 +127,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "aDouble", json: ["a_double": NSNull()], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .nullInNonOptional))
+            XCTAssert(checkAttributeSerializer(error, is: .nullInNonOptional))
         }
     }
     
@@ -136,7 +136,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "aDouble", json: ["a_double": "fail"], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .unexpectedType))
+            XCTAssert(checkSerializer(error, is: .unexpectedObject))
         }
     }
     
@@ -168,7 +168,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "aDouble", json: ["a_double": "fail"], isOptional: true)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .unexpectedType))
+            XCTAssert(checkSerializer(error, is: .unexpectedObject))
         }
     }
     
@@ -179,7 +179,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "anInteger16", json: ["an_integer16": Int(INT16_MAX) + 1], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .integerOverflow))
+            XCTAssert(checkSerializer(error, is: .failed))
         }
     }
     
@@ -188,7 +188,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "anInteger16", json: ["an_integer16": Int(INT16_MIN) - 1], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .integerOverflow))
+            XCTAssert(checkSerializer(error, is: .failed))
         }
     }
     
@@ -197,7 +197,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "anInteger32", json: ["an_integer32": Int(INT32_MAX) + 1], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .integerOverflow))
+            XCTAssert(checkSerializer(error, is: .failed))
         }
     }
     
@@ -206,7 +206,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "anInteger32", json: ["an_integer32": -(Int(INT32_MAX) + 1)], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .integerOverflow))
+            XCTAssert(checkSerializer(error, is: .failed))
         }
     }
     
@@ -217,7 +217,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "anInteger16", json: ["an_integer16": 3.14], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .unexpectedType))
+            XCTAssert(checkSerializer(error, is: .failed))
         }
     }
     
@@ -226,7 +226,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "anInteger32", json: ["an_integer32": 3.14], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .unexpectedType))
+            XCTAssert(checkSerializer(error, is: .failed))
         }
     }
     
@@ -235,7 +235,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "anInteger64", json: ["an_integer64": 3.14], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .unexpectedType))
+            XCTAssert(checkSerializer(error, is: .failed))
         }
     }
     
@@ -257,7 +257,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "aDate", json: ["a_date": "lorem"], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .invalidDateFormat))
+            XCTAssert(checkSerializer(error, is: .failed))
         }
     }
     
@@ -281,7 +281,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "aData", json: ["a_data": "lorem"], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .invalidDataFormat))
+            XCTAssert(checkSerializer(error, is: .failed))
         }
     }
     
@@ -301,7 +301,7 @@ class AttributeDeserializationTests: XCTestCase {
             let _ = try testAttribute(name: "anURI", json: ["an_uri": "tfr;\\re"], isOptional: false)
             XCTAssert(false)
         } catch let error {
-            XCTAssert(check(error, is: .unexpectedType))
+            XCTAssert(checkSerializer(error, is: .failed))
         }
     }
     
@@ -359,8 +359,13 @@ class AttributeDeserializationTests: XCTestCase {
     }
     
     // MARK: - Private methods
-    
-    private func check(_ error: Error, is code: AttributeSerializerErrorCode) -> Bool {
+
+    private func checkSerializer(_ error: Error, is code: SerializerErrorCode) -> Bool {
+        print(code.rawValue)
+        return (error as NSError).code == code.rawValue
+    }
+
+    private func checkAttributeSerializer(_ error: Error, is code: AttributeSerializerErrorCode) -> Bool {
         print(code.rawValue)
         return (error as NSError).code == code.rawValue
     }

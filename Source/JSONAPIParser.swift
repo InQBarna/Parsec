@@ -101,9 +101,7 @@ public class JSONAPIParser: APIParser {
     }
     
     public func json(object: APIObject) throws -> [String : Any] {
-        var result: [String : Any] = [:]
-
-        result["type"] = object.type
+        var result: [String : Any] = ["type": object.type]
 
         if let id = object.id {
             result["id"] = id
@@ -201,31 +199,6 @@ public class JSONAPIParser: APIParser {
         }
         
         return APIObject(type: type, id: id, attributes: att, relationships: rel)
-    }
-    
-    private func attribute(_ value: Any) throws -> APIAttribute {
-        return try APIAttribute(value: value)
-        /*
-        if value is NSNull {
-            return .null
-            
-        } else if value is Bool {
-            return .boolean(value as! Bool)
-        } else if let s = value as? String {
-            return .string(s)
-            
-        } else if let b = value as? NSNumber {
-            return .number(b)
-            
-        } else if let a = value as? [Any] {
-            return .array(a)
-            
-        } else if let o = value as? [String : Any] {
-            return .object(o)
-        }
-        
-        fatalError()
- */
     }
     
     private func validateVersion(_ json: [String : Any]) throws {

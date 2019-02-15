@@ -42,7 +42,7 @@ class AttributeSerializer {
     let name: String
     let remoteName: String
     let attributeType: NSAttributeType
-    let serializer: Serializer?
+    let serializer: Serializer
     weak var entity: EntitySerializer?
     let isOptional: Bool
     
@@ -69,23 +69,15 @@ class AttributeSerializer {
         }
         
         // serializer
-        switch attributeType {
-        case .dateAttributeType:
-            if let serializerName = attribute.userInfo?[UserInfoKey.serializer.rawValue] as? String {
-                serializer = parsec.serializers[serializerName]
-            } else {
-                serializer = parsec.defaultDateSerializer
-            }
-            
-        case .binaryDataAttributeType:
-            if let serializerName = attribute.userInfo?[UserInfoKey.serializer.rawValue] as? String {
-                serializer = parsec.serializers[serializerName]
-            } else {
-                serializer = parsec.defaultDataSerializer
-            }
-            
-        default:
-            serializer = nil
+        if
+            let serializerName = attribute.userInfo?[UserInfoKey.serializer.rawValue] as? String,
+            let s = parsec.serializers[serializerName]
+        {
+            serializer = s
+        } else if let s = parsec.defaultSerializers[attributeType] {
+            serializer = s
+        } else {
+            throw AttributeSerializerErrorCode.internalError.error("No default serializer for type \(attributeType.name)")
         }
     }
     
@@ -93,219 +85,15 @@ class AttributeSerializer {
         guard let value = value else {
             return .null
         }
-        
-        switch attributeType {
-        case .stringAttributeType:
-            return try APIAttribute(value: value)
-            
-        case .dateAttributeType:
-            
-            guard let defaultSerializer = entity?.parsec?.defaultDateSerializer else {
-                throw AttributeSerializerErrorCode.missingOption.error("No Date serializer provided")
-            }
-            
-            let serializer = self.serializer ?? defaultSerializer
-            let v = try serializer.serialize(value)
-            return try APIAttribute(value: v)
-            
-        case .binaryDataAttributeType:
-            
-            guard let defaultSerializer = entity?.parsec?.defaultDataSerializer else {
-                throw AttributeSerializerErrorCode.invalidDateFormat.error("No Data serializer provided")
-            }
-            
-            let serializer = self.serializer ?? defaultSerializer
-            let v = try serializer.serialize(value)
-            return try APIAttribute(value: v)
-            
-        case .UUIDAttributeType:
-            return try APIAttribute(value: (value as! UUID).uuidString)
-            
-        case .URIAttributeType:
-            return try APIAttribute(value: (value as! URL).absoluteString)
-            
-        case .integer16AttributeType, .integer32AttributeType, .integer64AttributeType:
-            return try APIAttribute(value: value)
-            
-        case .decimalAttributeType:
-            return try APIAttribute(value: value)
-            
-        case .doubleAttributeType:
-            return try APIAttribute(value: value)
-            
-        case .floatAttributeType:
-            return try APIAttribute(value: value)
-            
-        case .booleanAttributeType:
-            return try APIAttribute(value: value)
-            
-        default:
-            fatalError()
-        }
+
+        return try serializer.serialize(value)
     }
     
     func deserialize(_ apiAttribute: APIAttribute) throws -> Any? {
-        
-        switch attributeType {
-        case .stringAttributeType:
-            switch apiAttribute {
-            case .string(let s): return s
-            default: return try nullOrThrow(apiAttribute)
-            }
-            
-        case .dateAttributeType:
-            
-            guard let defaultSerializer = entity?.parsec?.defaultDateSerializer else {
-                throw AttributeSerializerErrorCode.missingOption.error("No Date serializer provided")
-            }
-            
-            let serializer = self.serializer ?? defaultSerializer
-            
-            let value = apiAttribute.value
-            if value is NSNull {
-                return try nullOrThrow(apiAttribute)
-            }
-            
-            do {
-                let object = try serializer.deserialize(value)
-                
-                guard let data = object as? Date else {
-                    let message = String(format: "Could not parse '%@' into '%@' (%@) with the provided date serializer", (value as AnyObject).debugDescription, path, attributeTypeName)
-                    throw AttributeSerializerErrorCode.invalidDateFormat.error(message)
-                }
-                return data
-                
-            } catch {
-                let message = String(format: "Could not parse '%@' into '%@' (%@) with the provided date serializer", (value as AnyObject).debugDescription, path, attributeTypeName)
-                throw AttributeSerializerErrorCode.invalidDateFormat.error(message)
-            }
-            
-            
-        case .binaryDataAttributeType:
-            
-            guard let defaultSerializer = entity?.parsec?.defaultDataSerializer else {
-                throw AttributeSerializerErrorCode.invalidDateFormat.error("No Data serializer provided")
-            }
-            
-            let serializer = self.serializer ?? defaultSerializer
-            
-            let value = apiAttribute.value
-            if value is NSNull {
-                return try nullOrThrow(apiAttribute)
-            }
-            
-            do {
-                let object = try serializer.deserialize(value)
-                
-                guard let data = object as? Data else {
-                    let message = String(format: "Could not parse '%@' into '%@' (%@) with the provided data serializer", (value as AnyObject).debugDescription, path, attributeTypeName)
-                    throw AttributeSerializerErrorCode.invalidDataFormat.error(message)
-                }
-                return data
-                
-            } catch {
-                let message = String(format: "Could not parse '%@' into '%@' (%@) with the provided data serializer", (value as AnyObject).debugDescription, path, attributeTypeName)
-                throw AttributeSerializerErrorCode.invalidDataFormat.error(message)
-            }
-            
-        case .UUIDAttributeType:
-            switch apiAttribute {
-            case .string(let s):
-                if let uuid = UUID(uuidString: s) {
-                    return uuid
-                } else {
-                    return try nullOrThrow(apiAttribute)
-                }
-                
-            default: return try nullOrThrow(apiAttribute)
-            }
-            
-        case .URIAttributeType:
-            switch apiAttribute {
-            case .string(let s):
-                if let url = URL(string: s) {
-                    return url
-                } else {
-                    return try nullOrThrow(apiAttribute)
-                }
-                
-            default: return try nullOrThrow(apiAttribute)
-            }
-            
-            
-        case .integer16AttributeType:
-            
-            switch apiAttribute {
-            case .number(let n):
-                if !n.isReal() {
-                    let intValue = n.intValue
-                    if intValue > INT16_MAX || intValue < INT16_MIN {
-                        let message = String(format: "Value '%d' overflows the capacity of attribute '%@' (%@)", intValue, path, attributeTypeName)
-                        throw AttributeSerializerErrorCode.integerOverflow.error(message)
-                    }
-                    return intValue
-                } else {
-                    return try nullOrThrow(apiAttribute)
-                }
-                
-            default: return try nullOrThrow(apiAttribute)
-            }
-            
-        case .integer32AttributeType:
-            switch apiAttribute {
-            case .number(let n):
-                if !n.isReal() {
-                    let intValue = n.intValue
-                    if intValue > INT32_MAX || intValue < -INT32_MAX {
-                        let message = String(format: "Value '%d' overflows the capacity of attribute '%@' (%@)", intValue, path, attributeTypeName)
-                        throw AttributeSerializerErrorCode.integerOverflow.error(message)
-                    }
-                    return intValue
-                } else {
-                    return try nullOrThrow(apiAttribute)
-                }
-                
-            default: return try nullOrThrow(apiAttribute)
-            }
-            
-        case .integer64AttributeType:
-            switch apiAttribute {
-            case .number(let n):
-                if !n.isReal() {
-                    return n.int64Value
-                } else {
-                    return try nullOrThrow(apiAttribute)
-                }
-                
-            default: return try nullOrThrow(apiAttribute)
-            }
-            
-        case .decimalAttributeType:
-            switch apiAttribute {
-            case .number(let n): return NSDecimalNumber(value: n.doubleValue)
-            default: return try nullOrThrow(apiAttribute)
-            }
-            
-        case .doubleAttributeType:
-            switch apiAttribute {
-            case .number(let n): return n
-            default: return try nullOrThrow(apiAttribute)
-            }
-            
-        case .floatAttributeType:
-            switch apiAttribute {
-            case .number(let n): return NSNumber(floatLiteral: n.doubleValue)
-            default: return try nullOrThrow(apiAttribute)
-            }
-            
-        case .booleanAttributeType:
-            switch apiAttribute {
-            case .boolean(let b): return b
-            default: return try nullOrThrow(apiAttribute)
-            }
-            
-        default:
-            fatalError()
+
+        switch apiAttribute {
+        case .null: return try nullOrThrow(apiAttribute)
+        default: return try serializer.deserialize(apiAttribute)
         }
     }
     
@@ -318,7 +106,7 @@ class AttributeSerializer {
         switch apiAttribute {
         case .null:
             if !isOptional {
-                let message = String(format: "Cannot set to 'null' non-optional attribute '%@' (%@)", path, attributeTypeName)
+                let message = String(format: "Cannot set to 'null' non-optional attribute '%@' (%@)", path, attributeType.name)
                 throw AttributeSerializerErrorCode.nullInNonOptional.error(message)
             } else {
                 let null: Any? = nil
@@ -327,13 +115,15 @@ class AttributeSerializer {
             
         default:
             let valueString = (apiAttribute.value as? NSObject)?.description ?? "-"
-            let message = String(format: "Cannot set '%@' to attribute '%@' (%@)", valueString, path, attributeTypeName)
+            let message = String(format: "Cannot set '%@' to attribute '%@' (%@)", valueString, path, attributeType.name)
             throw AttributeSerializerErrorCode.unexpectedType.error(message)
         }
-    }
-    
-    private var attributeTypeName: String {
-        switch attributeType {
+    }    
+}
+
+extension NSAttributeType {
+    var name: String {
+        switch self {
         case .integer16AttributeType: return "Int16"
         case .integer32AttributeType: return "Int32"
         case .integer64AttributeType: return "Int64"

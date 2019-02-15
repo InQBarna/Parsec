@@ -95,12 +95,12 @@ public protocol Serializer {
     /// Deserializes a JSON domain value into a NSManagedObject domain value. Note that `nil` is a valid output value.
     /// - parameter value:  The JSON domain value to be deserialized.
     /// - returns: An `Any` or `nil`.
-    func deserialize(_ value: Any) throws -> Any?
+    func deserialize(_ value: APIAttribute) throws -> Any?
     
     /// Serializes a NSManagedObject domain value into a JSON domain value.
     /// - parameter value:  The NSManagedObject domain value to be serialized.
     /// - returns: An `Any`.
-    func serialize(_ object: Any) throws -> Any
+    func serialize(_ object: Any) throws -> APIAttribute
 }
 
 /// The protocol in which parsers must conform to in order to deserialize/serialize values from/to API domain.
@@ -246,6 +246,8 @@ public class Parsec {
     
     private(set) var entitiesByName: [String : EntitySerializer]
     private(set) var entitiesByType: [String : EntitySerializer]
+
+    internal let defaultSerializers: [NSAttributeType: Serializer]
     
     /// Initializes a `Parsec` instance.
     ///
@@ -261,7 +263,20 @@ public class Parsec {
         defaultIdNames = ((options?[OptionKey.remoteIdNames]) as? [String]) ?? ["id" , "remoteId"]
         defaultDateSerializer = ((options?[OptionKey.defaultDateSerializer]) as? Serializer) ?? ISO8601DateSerializer()
         defaultDataSerializer = ((options?[OptionKey.defaultDataSerializer]) as? Serializer) ?? Base64DataSerializer()
-        
+
+        defaultSerializers = [.integer16AttributeType: Int16Serializer(),
+                              .integer32AttributeType: Int32Serializer(),
+                              .integer64AttributeType: Int64Serializer(),
+                              .decimalAttributeType: DecimalSerializer(),
+                              .doubleAttributeType: DoubleSerializer(),
+                              .floatAttributeType: FloatSerializer(),
+                              .stringAttributeType: StringSerializer(),
+                              .booleanAttributeType: BooleanSerializer(),
+                              .dateAttributeType: defaultDateSerializer,
+                              .binaryDataAttributeType: defaultDataSerializer,
+                              .UUIDAttributeType: UUIDSerializer(),
+                              .URIAttributeType: URISerializer()]
+
         self.entitiesByName = [:]
         self.entitiesByType = [:]
         
@@ -302,7 +317,7 @@ public class Parsec {
 
     /// Creates an API representation of an object.
     /// - parameter object:     A `NSManagedObject`.
-    /// - returns: An dictionary with the API representation of the object.
+    /// - returns: A dictionary with the API representation of the object.
     public func json(_ object: NSManagedObject) throws -> [String : Any] {
         guard let entityName = object.entity.name else {
             let message = String(format: "Entity of class '%@' has no name", object.entity.managedObjectClassName)

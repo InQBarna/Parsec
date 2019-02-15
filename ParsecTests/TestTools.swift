@@ -26,7 +26,11 @@ import CoreData
 
 class TestTools {
     static let shared = TestTools()
-    
+
+    func check(_ error: Error, is code: SerializerErrorCode) -> Bool {
+        return (error as NSError).code == code.rawValue
+    }
+
     func createContext(with model: String) -> NSManagedObjectContext {
         let bundle = Bundle(for: type(of: self))
         let url = bundle.url(forResource: model, withExtension: "momd")!

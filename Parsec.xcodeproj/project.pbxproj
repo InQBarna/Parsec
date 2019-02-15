@@ -9,10 +9,48 @@
 /* Begin PBXBuildFile section */
 		631F1946211487DC000678B6 /* AttributeDeserializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631F1945211487DC000678B6 /* AttributeDeserializationTests.swift */; };
 		631F194821148B1E000678B6 /* RelationshipSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631F194721148B1E000678B6 /* RelationshipSerializerTests.swift */; };
+		6340987A22157BDE0088F696 /* StringSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340987922157BDE0088F696 /* StringSerializer.swift */; };
+		6340987C22157C050088F696 /* ISO8601DateSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340987B22157C050088F696 /* ISO8601DateSerializer.swift */; };
+		6340987E22157C260088F696 /* Base64DataSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340987D22157C260088F696 /* Base64DataSerializer.swift */; };
+		6340988022157C510088F696 /* UnixTimestampSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340987F22157C510088F696 /* UnixTimestampSerializer.swift */; };
+		6340988222157C790088F696 /* UUIDSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988122157C790088F696 /* UUIDSerializer.swift */; };
+		6340988422157C9A0088F696 /* URISerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988322157C9A0088F696 /* URISerializer.swift */; };
+		6340988622157CB80088F696 /* Int16Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988522157CB80088F696 /* Int16Serializer.swift */; };
+		6340988822157CD70088F696 /* Int32Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988722157CD70088F696 /* Int32Serializer.swift */; };
+		6340988A22157CFE0088F696 /* Int64Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988922157CFE0088F696 /* Int64Serializer.swift */; };
+		6340988C22157D1C0088F696 /* DecimalSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988B22157D1C0088F696 /* DecimalSerializer.swift */; };
+		6340988E22157D380088F696 /* DoubleSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988D22157D380088F696 /* DoubleSerializer.swift */; };
+		6340989022157D500088F696 /* FloatSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988F22157D500088F696 /* FloatSerializer.swift */; };
+		6340989222157D6F0088F696 /* BooleanSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340989122157D6F0088F696 /* BooleanSerializer.swift */; };
+		6340989422157E620088F696 /* StringSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340989322157E620088F696 /* StringSerializerTests.swift */; };
+		6340989522157F0A0088F696 /* StringSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340987922157BDE0088F696 /* StringSerializer.swift */; };
+		6340989622157F0A0088F696 /* ISO8601DateSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340987B22157C050088F696 /* ISO8601DateSerializer.swift */; };
+		6340989722157F0A0088F696 /* Base64DataSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340987D22157C260088F696 /* Base64DataSerializer.swift */; };
+		6340989822157F0A0088F696 /* UnixTimestampSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340987F22157C510088F696 /* UnixTimestampSerializer.swift */; };
+		6340989922157F0A0088F696 /* UUIDSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988122157C790088F696 /* UUIDSerializer.swift */; };
+		6340989A22157F0A0088F696 /* URISerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988322157C9A0088F696 /* URISerializer.swift */; };
+		6340989B22157F0A0088F696 /* Int16Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988522157CB80088F696 /* Int16Serializer.swift */; };
+		6340989C22157F0A0088F696 /* Int32Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988722157CD70088F696 /* Int32Serializer.swift */; };
+		6340989D22157F0A0088F696 /* Int64Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988922157CFE0088F696 /* Int64Serializer.swift */; };
+		6340989E22157F0A0088F696 /* DecimalSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988B22157D1C0088F696 /* DecimalSerializer.swift */; };
+		6340989F22157F0A0088F696 /* DoubleSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988D22157D380088F696 /* DoubleSerializer.swift */; };
+		634098A022157F0A0088F696 /* FloatSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340988F22157D500088F696 /* FloatSerializer.swift */; };
+		634098A122157F0A0088F696 /* BooleanSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6340989122157D6F0088F696 /* BooleanSerializer.swift */; };
+		634098A3221580960088F696 /* ISO8601DateSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098A2221580960088F696 /* ISO8601DateSerializerTests.swift */; };
+		634098A5221582340088F696 /* Base64DataSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098A4221582340088F696 /* Base64DataSerializerTests.swift */; };
+		634098A7221584130088F696 /* UnixTimestampSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098A6221584130088F696 /* UnixTimestampSerializerTests.swift */; };
+		634098A9221585540088F696 /* UUIDSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098A8221585540088F696 /* UUIDSerializerTests.swift */; };
+		634098AB221586A10088F696 /* URISerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098AA221586A10088F696 /* URISerializerTests.swift */; };
+		634098AD2215874D0088F696 /* Int16SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098AC2215874D0088F696 /* Int16SerializerTests.swift */; };
+		634098AF22158A1A0088F696 /* Int32SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098AE22158A1A0088F696 /* Int32SerializerTests.swift */; };
+		634098B12215A7700088F696 /* Int64SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098B02215A7700088F696 /* Int64SerializerTests.swift */; };
+		634098B32215A8600088F696 /* DecimalSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098B22215A8600088F696 /* DecimalSerializerTests.swift */; };
+		634098B52215A9790088F696 /* DoubleSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098B42215A9790088F696 /* DoubleSerializerTests.swift */; };
+		634098B72215A9D90088F696 /* FloatSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098B62215A9D90088F696 /* FloatSerializerTests.swift */; };
+		634098B92215AA360088F696 /* BooleanSerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634098B82215AA360088F696 /* BooleanSerializerTests.swift */; };
 		63670553215B802700C80975 /* AttributeSerializationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63670552215B802700C80975 /* AttributeSerializationTests.swift */; };
 		63970D4521149E9A00438159 /* Parsec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4121135F0E000A4791 /* Parsec.swift */; };
 		63970D4621149E9A00438159 /* String+NamingConvention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4321135FC3000A4791 /* String+NamingConvention.swift */; };
-		63970D4721149E9A00438159 /* Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4421135FC3000A4791 /* Serializer.swift */; };
 		63970D4B21149E9A00438159 /* NSNumber+Parsec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD512113631A000A4791 /* NSNumber+Parsec.swift */; };
 		63970D4C21149E9A00438159 /* ContextCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD5421136F0A000A4791 /* ContextCache.swift */; };
 		63970D4D21149E9A00438159 /* ContextUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD5321136F0A000A4791 /* ContextUpdater.swift */; };
@@ -34,7 +72,6 @@
 		63F8FD3E21135DE8000A4791 /* TestTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD3D21135DE8000A4791 /* TestTools.swift */; };
 		63F8FD4221135F0E000A4791 /* Parsec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4121135F0E000A4791 /* Parsec.swift */; };
 		63F8FD4521135FC3000A4791 /* String+NamingConvention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4321135FC3000A4791 /* String+NamingConvention.swift */; };
-		63F8FD4621135FC3000A4791 /* Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4421135FC3000A4791 /* Serializer.swift */; };
 		63F8FD4921136029000A4791 /* NamingConventionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4721136029000A4791 /* NamingConventionTests.swift */; };
 		63F8FD4A21136029000A4791 /* SerializerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD4821136029000A4791 /* SerializerTests.swift */; };
 		63F8FD522113631A000A4791 /* NSNumber+Parsec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD512113631A000A4791 /* NSNumber+Parsec.swift */; };
@@ -59,6 +96,32 @@
 /* Begin PBXFileReference section */
 		631F1945211487DC000678B6 /* AttributeDeserializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeDeserializationTests.swift; sourceTree = "<group>"; };
 		631F194721148B1E000678B6 /* RelationshipSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSerializerTests.swift; sourceTree = "<group>"; };
+		6340987922157BDE0088F696 /* StringSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSerializer.swift; sourceTree = "<group>"; };
+		6340987B22157C050088F696 /* ISO8601DateSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601DateSerializer.swift; sourceTree = "<group>"; };
+		6340987D22157C260088F696 /* Base64DataSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64DataSerializer.swift; sourceTree = "<group>"; };
+		6340987F22157C510088F696 /* UnixTimestampSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnixTimestampSerializer.swift; sourceTree = "<group>"; };
+		6340988122157C790088F696 /* UUIDSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDSerializer.swift; sourceTree = "<group>"; };
+		6340988322157C9A0088F696 /* URISerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URISerializer.swift; sourceTree = "<group>"; };
+		6340988522157CB80088F696 /* Int16Serializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int16Serializer.swift; sourceTree = "<group>"; };
+		6340988722157CD70088F696 /* Int32Serializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int32Serializer.swift; sourceTree = "<group>"; };
+		6340988922157CFE0088F696 /* Int64Serializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int64Serializer.swift; sourceTree = "<group>"; };
+		6340988B22157D1C0088F696 /* DecimalSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalSerializer.swift; sourceTree = "<group>"; };
+		6340988D22157D380088F696 /* DoubleSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleSerializer.swift; sourceTree = "<group>"; };
+		6340988F22157D500088F696 /* FloatSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatSerializer.swift; sourceTree = "<group>"; };
+		6340989122157D6F0088F696 /* BooleanSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanSerializer.swift; sourceTree = "<group>"; };
+		6340989322157E620088F696 /* StringSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSerializerTests.swift; sourceTree = "<group>"; };
+		634098A2221580960088F696 /* ISO8601DateSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601DateSerializerTests.swift; sourceTree = "<group>"; };
+		634098A4221582340088F696 /* Base64DataSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Base64DataSerializerTests.swift; sourceTree = "<group>"; };
+		634098A6221584130088F696 /* UnixTimestampSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnixTimestampSerializerTests.swift; sourceTree = "<group>"; };
+		634098A8221585540088F696 /* UUIDSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDSerializerTests.swift; sourceTree = "<group>"; };
+		634098AA221586A10088F696 /* URISerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URISerializerTests.swift; sourceTree = "<group>"; };
+		634098AC2215874D0088F696 /* Int16SerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int16SerializerTests.swift; sourceTree = "<group>"; };
+		634098AE22158A1A0088F696 /* Int32SerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int32SerializerTests.swift; sourceTree = "<group>"; };
+		634098B02215A7700088F696 /* Int64SerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int64SerializerTests.swift; sourceTree = "<group>"; };
+		634098B22215A8600088F696 /* DecimalSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalSerializerTests.swift; sourceTree = "<group>"; };
+		634098B42215A9790088F696 /* DoubleSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleSerializerTests.swift; sourceTree = "<group>"; };
+		634098B62215A9D90088F696 /* FloatSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatSerializerTests.swift; sourceTree = "<group>"; };
+		634098B82215AA360088F696 /* BooleanSerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanSerializerTests.swift; sourceTree = "<group>"; };
 		63670552215B802700C80975 /* AttributeSerializationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeSerializationTests.swift; sourceTree = "<group>"; };
 		63970D532114A33C00438159 /* AttributeSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributeSerializer.swift; sourceTree = "<group>"; };
 		63970D552114A3B900438159 /* EntitySerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySerializer.swift; sourceTree = "<group>"; };
@@ -76,7 +139,6 @@
 		63F8FD3D21135DE8000A4791 /* TestTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestTools.swift; sourceTree = "<group>"; };
 		63F8FD4121135F0E000A4791 /* Parsec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parsec.swift; sourceTree = "<group>"; };
 		63F8FD4321135FC3000A4791 /* String+NamingConvention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+NamingConvention.swift"; sourceTree = "<group>"; };
-		63F8FD4421135FC3000A4791 /* Serializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Serializer.swift; sourceTree = "<group>"; };
 		63F8FD4721136029000A4791 /* NamingConventionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamingConventionTests.swift; sourceTree = "<group>"; };
 		63F8FD4821136029000A4791 /* SerializerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SerializerTests.swift; sourceTree = "<group>"; };
 		63F8FD512113631A000A4791 /* NSNumber+Parsec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNumber+Parsec.swift"; sourceTree = "<group>"; };
@@ -131,7 +193,6 @@
 			children = (
 				63F8FD4121135F0E000A4791 /* Parsec.swift */,
 				63970D5F21157AB400438159 /* OpenAPISpec.swift */,
-				63F8FD4421135FC3000A4791 /* Serializer.swift */,
 				63970D552114A3B900438159 /* EntitySerializer.swift */,
 				63970D532114A33C00438159 /* AttributeSerializer.swift */,
 				63970D572114A42200438159 /* RelationshipSerializer.swift */,
@@ -140,6 +201,19 @@
 				63F8FD4321135FC3000A4791 /* String+NamingConvention.swift */,
 				63F8FD5421136F0A000A4791 /* ContextCache.swift */,
 				63F8FD5321136F0A000A4791 /* ContextUpdater.swift */,
+				6340987922157BDE0088F696 /* StringSerializer.swift */,
+				6340987B22157C050088F696 /* ISO8601DateSerializer.swift */,
+				6340987D22157C260088F696 /* Base64DataSerializer.swift */,
+				6340987F22157C510088F696 /* UnixTimestampSerializer.swift */,
+				6340988122157C790088F696 /* UUIDSerializer.swift */,
+				6340988322157C9A0088F696 /* URISerializer.swift */,
+				6340988522157CB80088F696 /* Int16Serializer.swift */,
+				6340988722157CD70088F696 /* Int32Serializer.swift */,
+				6340988922157CFE0088F696 /* Int64Serializer.swift */,
+				6340988B22157D1C0088F696 /* DecimalSerializer.swift */,
+				6340988D22157D380088F696 /* DoubleSerializer.swift */,
+				6340988F22157D500088F696 /* FloatSerializer.swift */,
+				6340989122157D6F0088F696 /* BooleanSerializer.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -160,6 +234,19 @@
 				63F8FD5721137084000A4791 /* ContextUpdaterTests.swift */,
 				63970D6221157ABD00438159 /* OpenApiSpecTests.swift */,
 				63F8FD2B21135A0D000A4791 /* Info.plist */,
+				6340989322157E620088F696 /* StringSerializerTests.swift */,
+				634098A2221580960088F696 /* ISO8601DateSerializerTests.swift */,
+				634098A4221582340088F696 /* Base64DataSerializerTests.swift */,
+				634098A6221584130088F696 /* UnixTimestampSerializerTests.swift */,
+				634098A8221585540088F696 /* UUIDSerializerTests.swift */,
+				634098AA221586A10088F696 /* URISerializerTests.swift */,
+				634098AC2215874D0088F696 /* Int16SerializerTests.swift */,
+				634098AE22158A1A0088F696 /* Int32SerializerTests.swift */,
+				634098B02215A7700088F696 /* Int64SerializerTests.swift */,
+				634098B22215A8600088F696 /* DecimalSerializerTests.swift */,
+				634098B42215A9790088F696 /* DoubleSerializerTests.swift */,
+				634098B62215A9D90088F696 /* FloatSerializerTests.swift */,
+				634098B82215AA360088F696 /* BooleanSerializerTests.swift */,
 			);
 			path = ParsecTests;
 			sourceTree = "<group>";
@@ -195,6 +282,7 @@
 				63F8FD1721135A0D000A4791 /* Frameworks */,
 				63F8FD1821135A0D000A4791 /* Headers */,
 				63F8FD1921135A0D000A4791 /* Resources */,
+				634098BA221703500088F696 /* SwiftLint script */,
 			);
 			buildRules = (
 			);
@@ -278,21 +366,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		634098BA221703500088F696 /* SwiftLint script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		63F8FD1621135A0D000A4791 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6340988222157C790088F696 /* UUIDSerializer.swift in Sources */,
 				63970D6021157AB400438159 /* OpenAPISpec.swift in Sources */,
 				63970D542114A33C00438159 /* AttributeSerializer.swift in Sources */,
+				6340987C22157C050088F696 /* ISO8601DateSerializer.swift in Sources */,
+				6340989222157D6F0088F696 /* BooleanSerializer.swift in Sources */,
+				6340987A22157BDE0088F696 /* StringSerializer.swift in Sources */,
+				6340987E22157C260088F696 /* Base64DataSerializer.swift in Sources */,
+				6340988622157CB80088F696 /* Int16Serializer.swift in Sources */,
 				63970D4D21149E9A00438159 /* ContextUpdater.swift in Sources */,
+				6340988422157C9A0088F696 /* URISerializer.swift in Sources */,
+				6340988822157CD70088F696 /* Int32Serializer.swift in Sources */,
 				63970D4C21149E9A00438159 /* ContextCache.swift in Sources */,
+				6340989022157D500088F696 /* FloatSerializer.swift in Sources */,
+				6340988A22157CFE0088F696 /* Int64Serializer.swift in Sources */,
+				6340988E22157D380088F696 /* DoubleSerializer.swift in Sources */,
 				63970D582114A42200438159 /* RelationshipSerializer.swift in Sources */,
 				63970D4621149E9A00438159 /* String+NamingConvention.swift in Sources */,
 				63970D562114A3B900438159 /* EntitySerializer.swift in Sources */,
+				6340988C22157D1C0088F696 /* DecimalSerializer.swift in Sources */,
 				63970D4B21149E9A00438159 /* NSNumber+Parsec.swift in Sources */,
-				63970D4721149E9A00438159 /* Serializer.swift in Sources */,
 				63970D4521149E9A00438159 /* Parsec.swift in Sources */,
+				6340988022157C510088F696 /* UnixTimestampSerializer.swift in Sources */,
 				63F8FD3821135AD8000A4791 /* JSONAPIParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,30 +422,55 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				634098A022157F0A0088F696 /* FloatSerializer.swift in Sources */,
 				63970D5A2114A48200438159 /* AttributeSerializer.swift in Sources */,
 				63670553215B802700C80975 /* AttributeSerializationTests.swift in Sources */,
+				6340989422157E620088F696 /* StringSerializerTests.swift in Sources */,
+				6340989E22157F0A0088F696 /* DecimalSerializer.swift in Sources */,
 				63F8FD4921136029000A4791 /* NamingConventionTests.swift in Sources */,
 				63F8FD5821137084000A4791 /* ContextUpdaterTests.swift in Sources */,
-				63F8FD4621135FC3000A4791 /* Serializer.swift in Sources */,
+				6340989722157F0A0088F696 /* Base64DataSerializer.swift in Sources */,
+				634098B12215A7700088F696 /* Int64SerializerTests.swift in Sources */,
+				634098AB221586A10088F696 /* URISerializerTests.swift in Sources */,
+				634098AD2215874D0088F696 /* Int16SerializerTests.swift in Sources */,
+				6340989F22157F0A0088F696 /* DoubleSerializer.swift in Sources */,
 				63F8FD4221135F0E000A4791 /* Parsec.swift in Sources */,
+				6340989922157F0A0088F696 /* UUIDSerializer.swift in Sources */,
+				634098A7221584130088F696 /* UnixTimestampSerializerTests.swift in Sources */,
+				6340989B22157F0A0088F696 /* Int16Serializer.swift in Sources */,
 				63970D6121157AB400438159 /* OpenAPISpec.swift in Sources */,
+				6340989D22157F0A0088F696 /* Int64Serializer.swift in Sources */,
 				63F8FD522113631A000A4791 /* NSNumber+Parsec.swift in Sources */,
+				634098B72215A9D90088F696 /* FloatSerializerTests.swift in Sources */,
+				634098A3221580960088F696 /* ISO8601DateSerializerTests.swift in Sources */,
 				63F8FD3E21135DE8000A4791 /* TestTools.swift in Sources */,
 				63F8FD602113A828000A4791 /* Test_2_optionals.xcdatamodeld in Sources */,
 				631F194821148B1E000678B6 /* RelationshipSerializerTests.swift in Sources */,
 				63F8FD5521136F0A000A4791 /* ContextUpdater.swift in Sources */,
 				63F8FD3A21135D54000A4791 /* JSONAPIParserTests.swift in Sources */,
+				634098B52215A9790088F696 /* DoubleSerializerTests.swift in Sources */,
 				63F8FD612113A828000A4791 /* Test_3_serializers.xcdatamodeld in Sources */,
 				63F8FD5621136F0A000A4791 /* ContextCache.swift in Sources */,
 				63970D5B2114A48400438159 /* EntitySerializer.swift in Sources */,
+				6340989C22157F0A0088F696 /* Int32Serializer.swift in Sources */,
 				63970D592114A47E00438159 /* RelationshipSerializer.swift in Sources */,
 				631F1946211487DC000678B6 /* AttributeDeserializationTests.swift in Sources */,
 				63970D5E2114A8B700438159 /* EntitySerializerTests.swift in Sources */,
+				6340989622157F0A0088F696 /* ISO8601DateSerializer.swift in Sources */,
 				63F8FD2A21135A0D000A4791 /* ParsecTests.swift in Sources */,
+				634098B32215A8600088F696 /* DecimalSerializerTests.swift in Sources */,
+				634098A5221582340088F696 /* Base64DataSerializerTests.swift in Sources */,
+				6340989A22157F0A0088F696 /* URISerializer.swift in Sources */,
 				63970D6421157ABD00438159 /* OpenApiSpecTests.swift in Sources */,
 				63F8FD622113A828000A4791 /* Test_1_non_optionals.xcdatamodeld in Sources */,
+				6340989522157F0A0088F696 /* StringSerializer.swift in Sources */,
+				634098B92215AA360088F696 /* BooleanSerializerTests.swift in Sources */,
 				63F8FD4A21136029000A4791 /* SerializerTests.swift in Sources */,
 				63F8FD4521135FC3000A4791 /* String+NamingConvention.swift in Sources */,
+				634098A9221585540088F696 /* UUIDSerializerTests.swift in Sources */,
+				634098AF22158A1A0088F696 /* Int32SerializerTests.swift in Sources */,
+				6340989822157F0A0088F696 /* UnixTimestampSerializer.swift in Sources */,
+				634098A122157F0A0088F696 /* BooleanSerializer.swift in Sources */,
 				63F8FD3C21135DAD000A4791 /* JSONAPIParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

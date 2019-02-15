@@ -140,7 +140,7 @@ class EntitySerializer: NSObject {
             let v = object.attributes[name]!
             
             if v == nil || v is NSNull {
-                attributes[serializer.remoteName] = APIAttribute.null
+                attributes[serializer.remoteName] = .null
                 continue
             }
             

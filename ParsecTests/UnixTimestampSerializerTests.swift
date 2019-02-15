@@ -1,7 +1,7 @@
 //
-//  SerializerTests.swift
+//  UnixTimestampSerializerTests.swift
 //
-// Copyright (c) 2018 InQBarna Kenkyuu Jo (http://inqbarna.com/)
+// Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +24,18 @@
 
 import XCTest
 
-class SerializerTests: XCTestCase {
-    
+class UnixTimestampSerializerTests: XCTestCase {
+
     func testDeserialize() {
-        
+
         let date = Date(timeIntervalSince1970: 0)
-        let value = "1970-01-01T00:00:00Z"
-        
-        let dateSerializer = ISO8601DateSerializer()
-        
+        let value = Double(0)
+
+        let sut = UnixTimestampSerializer()
+
         do {
             let apiAttribute = try APIAttribute(value: value)
-            let result = try dateSerializer.deserialize(apiAttribute)
+            let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
             XCTAssertNotNil(result! is Date)
             XCTAssert((result! as! Date) == date)
@@ -43,23 +43,59 @@ class SerializerTests: XCTestCase {
             XCTAssert(false, error.localizedDescription)
         }
     }
-    
-    func testDeserializeUnexpected() {
-        
-        let dateSerializer = ISO8601DateSerializer()
-        
+
+    func testDeserializeNull() {
+
+        let sut = UnixTimestampSerializer()
+
         do {
-            let apiAttribute = try APIAttribute(value: 123)
-            let _ = try dateSerializer.deserialize(apiAttribute)
-            XCTAssert(false)
+            let apiAttribute = try APIAttribute(value: NSNull())
+            let result = try sut.deserialize(apiAttribute)
+            XCTAssertNil(result)
         } catch let error {
-            XCTAssert(check(error, is: .unexpectedObject))
+            XCTAssert(false, error.localizedDescription)
         }
     }
 
-    // MARK: - Private methods
-    
-    private func check(_ error: Error, is code: SerializerErrorCode) -> Bool {
-        return (error as NSError).code == code.rawValue
+    func testDeserializeUnexpected() {
+
+        let sut = UnixTimestampSerializer()
+
+        do {
+            let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
+            let _ = try sut.deserialize(apiAttribute)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
+        }
+    }
+
+    func testSerialize() {
+
+        let date = Date(timeIntervalSince1970: 0)
+        let value = Double(0)
+
+        let sut = UnixTimestampSerializer()
+
+        do {
+            let result = try sut.serialize(date)
+            XCTAssertNotNil(result)
+
+            XCTAssert((result.value as! Double) == value)
+        } catch let error {
+            XCTAssert(false, error.localizedDescription)
+        }
+    }
+
+    func testSerializeUnexpected() {
+
+        let sut = UnixTimestampSerializer()
+
+        do {
+            let _ = try sut.serialize(123)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
+        }
     }
 }
