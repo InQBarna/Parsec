@@ -129,6 +129,13 @@ public struct APIDocument {
 
     /// An dictionary containing side information (i.e. pagination).
     public let meta: [String: Any]?
+
+    public init(data: [APIObject]?, included: [APIObject]?, errors: [Error]?, meta: [String: Any]?) {
+        self.data = data
+        self.included = included
+        self.errors = errors
+        self.meta = meta
+    }
 }
 
 /// Contains the information of one API object or resource.
@@ -144,6 +151,13 @@ public struct APIObject {
 
     /// Dictionary containig the relationships of the object.
     public let relationships: [String: APIRelationship]
+
+    public init(type: String, id: AnyHashable?, attributes: [String: APIAttribute], relationships: [String: APIRelationship]) {
+        self.type = type
+        self.id = id
+        self.attributes = attributes
+        self.relationships = relationships
+    }
 }
 
 /// Holds the value of one API object attribute. As *Parsec* is based on JSON, the valid values are those supported in JSON.
@@ -232,6 +246,11 @@ public struct APIRelationship {
 
     /// The value of the relationship.
     public let value: Value
+
+    public init(type: String?, value: Value) {
+        self.type = type
+        self.value = value
+    }
 }
 
 /// *Parsec*
@@ -264,18 +283,22 @@ public class Parsec {
         defaultDateSerializer = ((options?[OptionKey.defaultDateSerializer]) as? Serializer) ?? ISO8601DateSerializer()
         defaultDataSerializer = ((options?[OptionKey.defaultDataSerializer]) as? Serializer) ?? Base64DataSerializer()
 
-        defaultSerializers = [.integer16AttributeType: Int16Serializer(),
-                              .integer32AttributeType: Int32Serializer(),
-                              .integer64AttributeType: Int64Serializer(),
-                              .decimalAttributeType: DecimalSerializer(),
-                              .doubleAttributeType: DoubleSerializer(),
-                              .floatAttributeType: FloatSerializer(),
-                              .stringAttributeType: StringSerializer(),
-                              .booleanAttributeType: BooleanSerializer(),
-                              .dateAttributeType: defaultDateSerializer,
-                              .binaryDataAttributeType: defaultDataSerializer,
-                              .UUIDAttributeType: UUIDSerializer(),
-                              .URIAttributeType: URISerializer()]
+        var defaultSerializers: [NSAttributeType: Serializer] = [.integer16AttributeType: Int16Serializer(),
+                                                                 .integer32AttributeType: Int32Serializer(),
+                                                                 .integer64AttributeType: Int64Serializer(),
+                                                                 .decimalAttributeType: DecimalSerializer(),
+                                                                 .doubleAttributeType: DoubleSerializer(),
+                                                                 .floatAttributeType: FloatSerializer(),
+                                                                 .stringAttributeType: StringSerializer(),
+                                                                 .booleanAttributeType: BooleanSerializer(),
+                                                                 .dateAttributeType: defaultDateSerializer,
+                                                                 .binaryDataAttributeType: defaultDataSerializer]
+        if #available(iOS 11.0, *) {
+            defaultSerializers[.UUIDAttributeType] = UUIDSerializer()
+            defaultSerializers[.URIAttributeType] = URISerializer()
+        }
+
+        self.defaultSerializers = defaultSerializers
 
         self.entitiesByName = [:]
         self.entitiesByType = [:]
@@ -283,6 +306,10 @@ public class Parsec {
         var entitiesByName: [String: EntitySerializer] = [:]
         var entitiesByType: [String: EntitySerializer] = [:]
         for (name, entity) in model.entitiesByName {
+            guard ((entity.userInfo?[UserInfoKey.ignore.rawValue] as? String) ?? "false") != "true" else {
+                continue
+            }
+
             let entitySerializer = try EntitySerializer(entity: entity, parsec: self)
             entitiesByName[name] = entitySerializer
             entitiesByType[entitySerializer.remoteName] = entitySerializer
