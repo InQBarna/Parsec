@@ -188,16 +188,24 @@ class EntitySerializer: NSObject {
 
             if let value = object.attributes[attribute.remoteName] {
                 validatedAttributes[name] = try attribute.deserialize(value)
+            } else {
+                parsec?.logger?.log(.warning, "Attribute '\(self.name).\(name)' not found in document while deserializing APIObject")
             }
         }
 
+        reportUnkownAttributes(object)
+        
         var validatedRelationships: [String: RelationshipData] = [:]
 
         for (name, relationship) in self.relationshipsByName {
             if let rel = object.relationships[relationship.remoteName] {
                 validatedRelationships[name] = try relationship.deserialize(rel)
+            } else {
+                parsec?.logger?.log(.warning, "Relationship '\(self.name).\(name)' not found while deserializing APIObject")
             }
         }
+
+        reportUnkownRelationships(object)
 
         return ObjectData(id: object.id,
                           entitySerializer: self,
@@ -205,4 +213,33 @@ class EntitySerializer: NSObject {
                           relationships: validatedRelationships)
     }
 
+    private func reportUnkownAttributes(_ object: APIObject) {
+        guard let logger = parsec?.logger else {
+            return
+        }
+
+        let knownAttributes = Set(attributesByName.values.map({ (serializer) -> String in
+            return serializer.remoteName
+        }))
+        let objectAttributes = Set(object.attributes.keys)
+        let unknownAttributes = objectAttributes.subtracting(knownAttributes)
+        for name in unknownAttributes {
+            logger.log(.warning, "Unknown attribute '\(name)' found in document while deserializing entity '\(self.name)'")
+        }
+    }
+
+    private func reportUnkownRelationships(_ object: APIObject) {
+        guard let logger = parsec?.logger else {
+            return
+        }
+
+        let knownRelationships = Set(relationshipsByName.values.map({ (serializer) -> String in
+            return serializer.remoteName
+        }))
+        let objectRelationships = Set(object.relationships.keys)
+        let unknownRelationships = objectRelationships.subtracting(knownRelationships)
+        for name in unknownRelationships {
+            logger.log(.warning, "Unknown relationship '\(name)' found in document while deserializing entity '\(self.name)'")
+        }
+    }
 }

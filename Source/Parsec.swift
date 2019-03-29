@@ -253,6 +253,18 @@ public struct APIRelationship {
     }
 }
 
+public enum LogLevel: Int {
+    case error
+    case warning
+    case info
+    case debug
+    case verbose
+}
+
+public protocol Logger {
+    func log(_ level: LogLevel,_ text: String)
+}
+
 /// *Parsec*
 public class Parsec {
 
@@ -262,6 +274,7 @@ public class Parsec {
     public let defaultDateSerializer: Serializer
     public let defaultDataSerializer: Serializer
     public let defaultIdNames: [String]
+    public var logger: Logger?
 
     private(set) var entitiesByName: [String: EntitySerializer]
     private(set) var entitiesByType: [String: EntitySerializer]
