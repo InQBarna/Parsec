@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = "Parsec"
-s.version          = "1.0.1"
+s.version          = "1.0.2"
 s.summary          = "Modular JSON API to Core Data parser and validator"
 s.description      = <<-DESC
 **Parsec** eases the task of getting a `JSON API` response into Core Data.

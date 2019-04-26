@@ -136,6 +136,7 @@ extension NSAttributeType {
         case .binaryDataAttributeType: return "Binary"
         case .UUIDAttributeType: return "UUID"
         case .URIAttributeType: return "URI"
+        case .transformableAttributeType: return "Transformable"
         default: return "Unsupported"
         }
     }
