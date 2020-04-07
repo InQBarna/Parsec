@@ -361,6 +361,97 @@ public class Parsec {
         return try parser.json(object: apiObject)
     }
 
+    /// Returns an NSManagedObject from Context given its RemoteID and RemoteName
+    /// - parameter remoteID:     A `String` representing the id of the object.
+    /// - parameter remoteName:   A `String` representing the API name of the resource.
+    /// - parameter context:      The `NSManagedObjectContext` we want to request the object from.
+    /// - returns:                (Optional)The `NSManagedObject` or nil if no object for the given id is found.
+    public func getObject(from remoteID: String, remoteName: String, context: NSManagedObjectContext) throws -> NSManagedObject? {
+
+        guard let serializer = entitiesByType[remoteName] else {
+            let message = String(format: "No serializer found for type '%@'", remoteName)
+            throw EntitySerializerErrorCode.unknownType.error(message)
+        }
+
+        let fr: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: serializer.name)
+        fr.predicate = NSPredicate(format: "id = %@", remoteID)
+
+        do {
+            let managedObjects = try context.fetch(fr)
+
+            guard managedObjects.count <= 1 else {
+                throw NSError(domain: "Parsec.Parsec", code: 1, userInfo: [NSLocalizedDescriptionKey: "Only one or zero objects with this remoteId '\(remoteID)' must exists"])
+            }
+
+            return managedObjects.first
+        } catch {
+            throw EntitySerializerErrorCode.unknownType.error("No object found for entity '\(serializer.name)'")
+        }
+
+    }
+
+    /// Returns an NSManagedObject array from Context given an APIObject array keeping the same order
+    /// - parameter apiObjects:   A `[APIObject]` representing the list of  `APIObject` returned from the API.
+    /// - parameter context:      The `NSManagedObjectContext` we want to request the objects from.
+    /// - returns:                A `[NSManagedObject]`, empty if APIObjects is empty, order by apiObjects array id order.
+    public func objectsFrom(_ apiObjects: [APIObject], context: NSManagedObjectContext) throws -> [NSManagedObject] {
+
+        let apiObjectsIDs: [String] = try apiObjects.map {
+            guard let remoteId = $0.id as? String else {
+                throw NSError(domain: "Parsec.Parsec", code: 2, userInfo: [NSLocalizedDescriptionKey: "Returned APIObject without valid 'id'"])
+            }
+            return remoteId
+        }
+
+        guard
+            let apiObject = apiObjects.first
+        else {
+                return [NSManagedObject]()
+        }
+
+        guard
+            let serializer = entitiesByType[apiObject.type]
+        else {
+            let message = String(format: "No serializer found for type '%@'", apiObject.type)
+            throw EntitySerializerErrorCode.unknownType.error(message)
+        }
+
+        let fr: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: serializer.name)
+        fr.predicate = NSPredicate(format: "id IN %@", apiObjectsIDs)
+
+        do {
+            let managedObjects = try context.fetch(fr)
+            try context.obtainPermanentIDs(for: managedObjects)
+
+            guard apiObjectsIDs.count == managedObjects.count else {
+                throw NSError(domain: "Parsec.Parsec", code: 3, userInfo: [NSLocalizedDescriptionKey: "APIObjects array and ManagedObjects retrieved must contains the same number of items"])
+            }
+
+            let result = try managedObjects.sorted { (leftObject, rightObject) -> Bool in
+                guard
+                    let leftID = leftObject.value(forKey: "id") as? String,
+                    let rightID = rightObject.value(forKey: "id") as? String
+                    else {
+                        throw NSError(domain: "Parsec.Parsec", code: 4, userInfo: [NSLocalizedDescriptionKey: "Stored ManagedObject without valid 'id' String property"])
+                }
+
+                guard
+                    let leftIndex = apiObjectsIDs.firstIndex(of: leftID),
+                    let rightIndex = apiObjectsIDs.firstIndex(of: rightID)
+                    else {
+                        throw NSError(domain: "Parsec.Parsec", code: 5, userInfo: [NSLocalizedDescriptionKey: "Index for ManagedObject 'id' not found in APIObject param array"])
+                }
+
+                return leftIndex < rightIndex
+            }
+
+            return result
+
+        } catch {
+            throw error
+        }
+    }
+
     func deserialize(document: APIDocument) throws -> [ObjectData] {
 
         var objects = document.data ?? []
