@@ -64,6 +64,7 @@
 		63970D6021157AB400438159 /* OpenAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D5F21157AB400438159 /* OpenAPISpec.swift */; };
 		63970D6121157AB400438159 /* OpenAPISpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D5F21157AB400438159 /* OpenAPISpec.swift */; };
 		63970D6421157ABD00438159 /* OpenApiSpecTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63970D6221157ABD00438159 /* OpenApiSpecTests.swift */; };
+		639D8CBA243E223F0080FA11 /* LoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639D8CB9243E223F0080FA11 /* LoggerTests.swift */; };
 		63F8FD2521135A0D000A4791 /* Parsec.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63F8FD1B21135A0D000A4791 /* Parsec.framework */; };
 		63F8FD2A21135A0D000A4791 /* ParsecTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD2921135A0D000A4791 /* ParsecTests.swift */; };
 		63F8FD3821135AD8000A4791 /* JSONAPIParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F8FD3721135AD8000A4791 /* JSONAPIParser.swift */; };
@@ -129,6 +130,7 @@
 		63970D5D2114A8B700438159 /* EntitySerializerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySerializerTests.swift; sourceTree = "<group>"; };
 		63970D5F21157AB400438159 /* OpenAPISpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenAPISpec.swift; sourceTree = "<group>"; };
 		63970D6221157ABD00438159 /* OpenApiSpecTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenApiSpecTests.swift; sourceTree = "<group>"; };
+		639D8CB9243E223F0080FA11 /* LoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerTests.swift; sourceTree = "<group>"; };
 		63F8FD1B21135A0D000A4791 /* Parsec.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Parsec.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		63F8FD1F21135A0D000A4791 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		63F8FD2421135A0D000A4791 /* ParsecTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParsecTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -247,6 +249,7 @@
 				634098B42215A9790088F696 /* DoubleSerializerTests.swift */,
 				634098B62215A9D90088F696 /* FloatSerializerTests.swift */,
 				634098B82215AA360088F696 /* BooleanSerializerTests.swift */,
+				639D8CB9243E223F0080FA11 /* LoggerTests.swift */,
 			);
 			path = ParsecTests;
 			sourceTree = "<group>";
@@ -471,6 +474,7 @@
 				634098AF22158A1A0088F696 /* Int32SerializerTests.swift in Sources */,
 				6340989822157F0A0088F696 /* UnixTimestampSerializer.swift in Sources */,
 				634098A122157F0A0088F696 /* BooleanSerializer.swift in Sources */,
+				639D8CBA243E223F0080FA11 /* LoggerTests.swift in Sources */,
 				63F8FD3C21135DAD000A4791 /* JSONAPIParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

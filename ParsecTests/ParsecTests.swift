@@ -73,7 +73,7 @@ class ParsecTests: XCTestCase {
         let sut = try! Parsec(model: model)
         XCTAssertThrowsError(try sut.managedObject(with: "1", remoteName: "UnknownClass", context: context))
     }
-    
+
     func testManagedObjectsWithSuccess() {
         let context = TestTools.shared.createContext(with: "Test_2_optionals")
         let model = context.persistentStoreCoordinator!.managedObjectModel
@@ -86,7 +86,7 @@ class ParsecTests: XCTestCase {
 
         let sut = try! Parsec(model: model)
         let result = try! sut.managedObjectsFrom(apiObjects, context: context)
-        let resultIds = result.compactMap( {$0.value(forKey: "id") as? String} )
+        let resultIds = result.compactMap({$0.value(forKey: "id") as? String} )
         XCTAssert(resultIds == ids)
     }
 
