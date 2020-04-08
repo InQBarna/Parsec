@@ -28,7 +28,7 @@ import CoreData
 
 class EntitySerializerTests: XCTestCase {
 
-    func entitySerializerTest() {
+    func testEntitySerializer() {
 
         let attributes: [String: APIAttribute] = ["a_boolean": try! APIAttribute(value: true),
                                           "a_date": try! APIAttribute(value: "2018-01-23T03:06:46Z"),
