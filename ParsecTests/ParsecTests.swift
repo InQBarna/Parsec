@@ -23,6 +23,7 @@
 //
 
 import XCTest
+import CoreData
 @testable import Parsec
 
 class ParsecTests: XCTestCase {
@@ -37,16 +38,78 @@ class ParsecTests: XCTestCase {
         super.tearDown()
     }
 
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+    func testManagedObjectWith() {
+        let context = TestTools.shared.createContext(with: "Test_2_optionals")
+        let model = context.persistentStoreCoordinator!.managedObjectModel
+        try! createObjects(count: 5, context: context)
 
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+        let sut = try! Parsec(model: model)
+        let result = try! sut.managedObject(with: "1", remoteName: "entity2_a", context: context)
+
+        XCTAssert(result is Entity2A)
+        guard
+            let r = result as? Entity2A,
+            let id = r.value(forKey: "id") as? String,
+            id == "1"
+        else {
+            XCTAssert(false)
+            fatalError()
         }
     }
 
+    func testManagedObjectMissing() {
+        let context = TestTools.shared.createContext(with: "Test_2_optionals")
+        let model = context.persistentStoreCoordinator!.managedObjectModel
+
+        let sut = try! Parsec(model: model)
+        let result = try! sut.managedObject(with: "1", remoteName: "entity2_a", context: context)
+        XCTAssert(result == nil)
+    }
+
+    func testManagedObjectWithWrongRemoteName() {
+        let context = TestTools.shared.createContext(with: "Test_2_optionals")
+        let model = context.persistentStoreCoordinator!.managedObjectModel
+
+        let sut = try! Parsec(model: model)
+        XCTAssertThrowsError(try sut.managedObject(with: "1", remoteName: "UnknownClass", context: context))
+    }
+    
+    func testManagedObjectsWithSuccess() {
+        let context = TestTools.shared.createContext(with: "Test_2_optionals")
+        let model = context.persistentStoreCoordinator!.managedObjectModel
+        try! createObjects(count: 10, context: context)
+
+        let ids = ["8", "1", "7"]
+        let apiObjects = ids.map { (id) -> APIObject in
+            APIObject(type: "entity2_a", id: id, attributes: [:], relationships: [:])
+        }
+
+        let sut = try! Parsec(model: model)
+        let result = try! sut.managedObjectsFrom(apiObjects, context: context)
+        let resultIds = result.compactMap( {$0.value(forKey: "id") as? String} )
+        XCTAssert(resultIds == ids)
+    }
+
+    func testManagedObjectsWithFailure() {
+        let context = TestTools.shared.createContext(with: "Test_2_optionals")
+        let model = context.persistentStoreCoordinator!.managedObjectModel
+        try! createObjects(count: 10, context: context)
+
+        let ids = ["8", "1", "17"]
+        let apiObjects = ids.map { (id) -> APIObject in
+            APIObject(type: "entity2_a", id: id, attributes: [:], relationships: [:])
+        }
+
+        let sut = try! Parsec(model: model)
+        XCTAssertThrowsError(try sut.managedObjectsFrom(apiObjects, context: context))
+    }
+
+    private func createObjects(count: Int, context: NSManagedObjectContext) throws {
+        for i in 1..<count {
+            let object = NSEntityDescription.insertNewObject(forEntityName: "Entity2A", into: context) as! Entity2A
+
+            object.id = String(i)
+        }
+        try context.save()
+    }
 }
