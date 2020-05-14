@@ -75,6 +75,7 @@ class ContextCache {
                 }
             }
 
+            var newObjects: [NSManagedObject] = []
             for id in missing {
                 guard let id = id as? AnyHashable else {
                     continue
@@ -84,7 +85,13 @@ class ContextCache {
                 o.setValue(id, forKey: requirement.remoteId)
 
                 out[id] = o
+                newObjects.append(o)
             }
+
+            if !newObjects.isEmpty {
+                try context.obtainPermanentIDs(for: newObjects)
+            }
+
             fetched[entity] = out
         }
     }
