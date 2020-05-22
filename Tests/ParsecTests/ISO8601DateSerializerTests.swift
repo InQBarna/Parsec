@@ -1,5 +1,5 @@
 //
-//  DoubleSerializerTests.swift
+//  ISO8601DateSerializerTests.swift
 //
 // Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,20 +23,23 @@
 //
 
 import XCTest
+@testable import Parsec
 
-class DoubleSerializerTests: XCTestCase {
+class ISO8601DateSerializerTests: XCTestCase {
 
     func testDeserialize() {
 
-        let value = NSNumber(value: 123.5)
-        let sut = DoubleSerializer()
+        let date = Date(timeIntervalSince1970: 0)
+        let value = "1970-01-01T00:00:00Z"
+
+        let sut = ISO8601DateSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
-            XCTAssertNotNil(result! is NSNumber)
-            XCTAssert((result! as! NSNumber) == value)
+            XCTAssertNotNil(result! is Date)
+            XCTAssert((result! as! Date) == date)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -44,7 +47,7 @@ class DoubleSerializerTests: XCTestCase {
 
     func testDeserializeNull() {
 
-        let sut = DoubleSerializer()
+        let sut = ISO8601DateSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: NSNull())
@@ -57,10 +60,10 @@ class DoubleSerializerTests: XCTestCase {
 
     func testDeserializeUnexpected() {
 
-        let sut = DoubleSerializer()
+        let sut = ISO8601DateSerializer()
 
         do {
-            let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
+            let apiAttribute = try APIAttribute(value: 1234)
             _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
@@ -68,16 +71,32 @@ class DoubleSerializerTests: XCTestCase {
         }
     }
 
-    func testSerialize() {
+    func testDeserializeFailed() {
 
-        let value = 45.6
-        let sut = DoubleSerializer()
+        let value = "1970-01-01"
+        let sut = ISO8601DateSerializer()
 
         do {
-            let result = try sut.serialize(value)
+            let apiAttribute = try APIAttribute(value: value)
+            _ = try sut.deserialize(apiAttribute)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(TestTools.shared.check(error, is: .failed))
+        }
+    }
+
+    func testSerialize() {
+
+        let date = Date(timeIntervalSince1970: 0)
+        let value = "1970-01-01T00:00:00Z"
+
+        let sut = ISO8601DateSerializer()
+
+        do {
+            let result = try sut.serialize(date)
             XCTAssertNotNil(result)
 
-            XCTAssert((result.value as! NSNumber) == NSNumber(value: value))
+            XCTAssert((result.value as! String) == value)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -85,10 +104,10 @@ class DoubleSerializerTests: XCTestCase {
 
     func testSerializeUnexpected() {
 
-        let sut = DoubleSerializer()
+        let sut = ISO8601DateSerializer()
 
         do {
-            _ = try sut.serialize("lorem ipsum dolor est")
+            _ = try sut.serialize(123)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))

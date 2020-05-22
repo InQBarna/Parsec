@@ -23,8 +23,10 @@
 //
 
 import CoreData
+@testable import Parsec
 
 class TestTools {
+
     static let shared = TestTools()
 
     func check(_ error: Error, is code: SerializerErrorCode) -> Bool {
@@ -142,4 +144,5 @@ class TestTools {
         return ["id": id,
                 "type": "entity2_b"]
     }
+    
 }

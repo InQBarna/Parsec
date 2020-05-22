@@ -23,6 +23,7 @@
 //
 
 import XCTest
+@testable import Parsec
 
 class FloatSerializerTests: XCTestCase {
 

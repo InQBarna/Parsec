@@ -1,5 +1,5 @@
 //
-//  Int32SerializerTests.swift
+//  DecimalSerializerTests.swift
 //
 // Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,20 +23,21 @@
 //
 
 import XCTest
+@testable import Parsec
 
-class Int32SerializerTests: XCTestCase {
+class DecimalSerializerTests: XCTestCase {
 
     func testDeserialize() {
 
-        let value = Int32(90000)
-        let sut = Int32Serializer()
+        let value = NSDecimalNumber(value: 123.5)
+        let sut = DecimalSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
-            XCTAssertNotNil(result! is Int32)
-            XCTAssert((result! as! Int32) == value)
+            XCTAssertNotNil(result! is NSDecimalNumber)
+            XCTAssert((result! as! NSDecimalNumber) == value)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -44,7 +45,7 @@ class Int32SerializerTests: XCTestCase {
 
     func testDeserializeNull() {
 
-        let sut = Int32Serializer()
+        let sut = DecimalSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: NSNull())
@@ -57,7 +58,7 @@ class Int32SerializerTests: XCTestCase {
 
     func testDeserializeUnexpected() {
 
-        let sut = Int32Serializer()
+        let sut = DecimalSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
@@ -68,58 +69,16 @@ class Int32SerializerTests: XCTestCase {
         }
     }
 
-    func testDeserializeReal() {
-
-        let value = 2.5
-        let sut = Int32Serializer()
-
-        do {
-            let apiAttribute = try APIAttribute(value: value)
-            _ = try sut.deserialize(apiAttribute)
-            XCTAssert(false)
-        } catch let error {
-            XCTAssert(TestTools.shared.check(error, is: .failed))
-        }
-    }
-
-    func testDeserializeOverflow() {
-
-        let value = 90000000000
-        let sut = Int32Serializer()
-
-        do {
-            let apiAttribute = try APIAttribute(value: value)
-            _ = try sut.deserialize(apiAttribute)
-            XCTAssert(false)
-        } catch let error {
-            XCTAssert(TestTools.shared.check(error, is: .failed))
-        }
-    }
-
-    func testDeserializeOverflowNegative() {
-
-        let value = -90000000000
-        let sut = Int32Serializer()
-
-        do {
-            let apiAttribute = try APIAttribute(value: value)
-            _ = try sut.deserialize(apiAttribute)
-            XCTAssert(false)
-        } catch let error {
-            XCTAssert(TestTools.shared.check(error, is: .failed))
-        }
-    }
-
     func testSerialize() {
 
-        let value = 90000
-        let sut = Int32Serializer()
+        let value = 45.6
+        let sut = DecimalSerializer()
 
         do {
             let result = try sut.serialize(value)
             XCTAssertNotNil(result)
 
-            XCTAssert((result.value as! Int32) == Int32(value))
+            XCTAssert((result.value as! NSNumber) == NSNumber(value: value))
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -127,7 +86,7 @@ class Int32SerializerTests: XCTestCase {
 
     func testSerializeUnexpected() {
 
-        let sut = Int32Serializer()
+        let sut = DecimalSerializer()
 
         do {
             _ = try sut.serialize("lorem ipsum dolor est")
@@ -136,17 +95,4 @@ class Int32SerializerTests: XCTestCase {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
         }
     }
-
-    func testSerializeFailed() {
-
-        let sut = Int32Serializer()
-
-        do {
-            _ = try sut.serialize(123.5)
-            XCTAssert(false)
-        } catch let error {
-            XCTAssert(TestTools.shared.check(error, is: .failed))
-        }
-    }
-
 }

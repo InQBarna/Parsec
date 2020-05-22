@@ -1,5 +1,5 @@
 //
-//  Int16SerializerTests.swift
+//  Int32SerializerTests.swift
 //
 // Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,20 +23,21 @@
 //
 
 import XCTest
+@testable import Parsec
 
-class Int16SerializerTests: XCTestCase {
+class Int32SerializerTests: XCTestCase {
 
     func testDeserialize() {
 
-        let value = Int16(123)
-        let sut = Int16Serializer()
+        let value = Int32(90000)
+        let sut = Int32Serializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
-            XCTAssertNotNil(result! is Int16)
-            XCTAssert((result! as! Int16) == value)
+            XCTAssertNotNil(result! is Int32)
+            XCTAssert((result! as! Int32) == value)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -44,7 +45,7 @@ class Int16SerializerTests: XCTestCase {
 
     func testDeserializeNull() {
 
-        let sut = Int16Serializer()
+        let sut = Int32Serializer()
 
         do {
             let apiAttribute = try APIAttribute(value: NSNull())
@@ -57,7 +58,7 @@ class Int16SerializerTests: XCTestCase {
 
     func testDeserializeUnexpected() {
 
-        let sut = Int16Serializer()
+        let sut = Int32Serializer()
 
         do {
             let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
@@ -71,7 +72,7 @@ class Int16SerializerTests: XCTestCase {
     func testDeserializeReal() {
 
         let value = 2.5
-        let sut = Int16Serializer()
+        let sut = Int32Serializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
@@ -84,8 +85,8 @@ class Int16SerializerTests: XCTestCase {
 
     func testDeserializeOverflow() {
 
-        let value = 900000
-        let sut = Int16Serializer()
+        let value = 90000000000
+        let sut = Int32Serializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
@@ -98,8 +99,8 @@ class Int16SerializerTests: XCTestCase {
 
     func testDeserializeOverflowNegative() {
 
-        let value = -900000
-        let sut = Int16Serializer()
+        let value = -90000000000
+        let sut = Int32Serializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
@@ -112,14 +113,14 @@ class Int16SerializerTests: XCTestCase {
 
     func testSerialize() {
 
-        let value = 12
-        let sut = Int16Serializer()
+        let value = 90000
+        let sut = Int32Serializer()
 
         do {
             let result = try sut.serialize(value)
             XCTAssertNotNil(result)
 
-            XCTAssert((result.value as! Int16) == Int16(value))
+            XCTAssert((result.value as! Int32) == Int32(value))
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -127,7 +128,7 @@ class Int16SerializerTests: XCTestCase {
 
     func testSerializeUnexpected() {
 
-        let sut = Int16Serializer()
+        let sut = Int32Serializer()
 
         do {
             _ = try sut.serialize("lorem ipsum dolor est")
@@ -139,7 +140,7 @@ class Int16SerializerTests: XCTestCase {
 
     func testSerializeFailed() {
 
-        let sut = Int16Serializer()
+        let sut = Int32Serializer()
 
         do {
             _ = try sut.serialize(123.5)

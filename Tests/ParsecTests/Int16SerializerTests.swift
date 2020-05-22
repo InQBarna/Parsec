@@ -1,5 +1,5 @@
 //
-//  StringSerializerTests.swift
+//  Int16SerializerTests.swift
 //
 // Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,20 +23,21 @@
 //
 
 import XCTest
+@testable import Parsec
 
-class StringSerializerTests: XCTestCase {
-
+class Int16SerializerTests: XCTestCase {
+/*
     func testDeserialize() {
 
-        let value = "lopem ipsum dolor est"
-        let sut = StringSerializer()
+        let value = Int16(123)
+        let sut = Int16Serializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
-            XCTAssertNotNil(result! is String)
-            XCTAssert((result! as! String) == value)
+            XCTAssertNotNil(result! is Int16)
+            XCTAssert((result! as! Int16) == value)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -44,7 +45,7 @@ class StringSerializerTests: XCTestCase {
 
     func testDeserializeNull() {
 
-        let sut = StringSerializer()
+        let sut = Int16Serializer()
 
         do {
             let apiAttribute = try APIAttribute(value: NSNull())
@@ -57,10 +58,10 @@ class StringSerializerTests: XCTestCase {
 
     func testDeserializeUnexpected() {
 
-        let sut = StringSerializer()
+        let sut = Int16Serializer()
 
         do {
-            let apiAttribute = try APIAttribute(value: 1234)
+            let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
             _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
@@ -68,16 +69,58 @@ class StringSerializerTests: XCTestCase {
         }
     }
 
+    func testDeserializeReal() {
+
+        let value = 2.5
+        let sut = Int16Serializer()
+
+        do {
+            let apiAttribute = try APIAttribute(value: value)
+            _ = try sut.deserialize(apiAttribute)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(TestTools.shared.check(error, is: .failed))
+        }
+    }
+
+    func testDeserializeOverflow() {
+
+        let value = 900000
+        let sut = Int16Serializer()
+
+        do {
+            let apiAttribute = try APIAttribute(value: value)
+            _ = try sut.deserialize(apiAttribute)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(TestTools.shared.check(error, is: .failed))
+        }
+    }
+
+    func testDeserializeOverflowNegative() {
+
+        let value = -900000
+        let sut = Int16Serializer()
+
+        do {
+            let apiAttribute = try APIAttribute(value: value)
+            _ = try sut.deserialize(apiAttribute)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(TestTools.shared.check(error, is: .failed))
+        }
+    }
+
     func testSerialize() {
 
-        let value = "lopem ipsum dolor est"
-        let sut = StringSerializer()
+        let value = 12
+        let sut = Int16Serializer()
 
         do {
             let result = try sut.serialize(value)
             XCTAssertNotNil(result)
 
-            XCTAssert((result.value as! String) == value)
+            XCTAssert((result.value as! Int16) == Int16(value))
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -85,14 +128,26 @@ class StringSerializerTests: XCTestCase {
 
     func testSerializeUnexpected() {
 
-        let sut = StringSerializer()
+        let sut = Int16Serializer()
 
         do {
-            _ = try sut.serialize(123)
+            _ = try sut.serialize("lorem ipsum dolor est")
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
         }
     }
 
+    func testSerializeFailed() {
+
+        let sut = Int16Serializer()
+
+        do {
+            _ = try sut.serialize(123.5)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(TestTools.shared.check(error, is: .failed))
+        }
+    }
+*/
 }

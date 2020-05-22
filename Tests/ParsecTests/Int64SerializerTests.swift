@@ -1,5 +1,5 @@
 //
-//  UUIDSerializerTests.swift
+//  Int64SerializerTests.swift
 //
 // Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,22 +23,21 @@
 //
 
 import XCTest
+@testable import Parsec
 
-class UUIDSerializerTests: XCTestCase {
+class Int64SerializerTests: XCTestCase {
 
     func testDeserialize() {
 
-        let value = "0bfa858c-304a-11e9-b210-d663bd873d93"
-        let uuid = UUID(uuidString: value)!
-
-        let sut = UUIDSerializer()
+        let value = Int64(90000)
+        let sut = Int64Serializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
-            XCTAssertNotNil(result! is UUID)
-            XCTAssert((result! as! UUID) == uuid)
+            XCTAssertNotNil(result! is Int64)
+            XCTAssert((result! as! Int64) == value)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -46,7 +45,7 @@ class UUIDSerializerTests: XCTestCase {
 
     func testDeserializeNull() {
 
-        let sut = UUIDSerializer()
+        let sut = Int64Serializer()
 
         do {
             let apiAttribute = try APIAttribute(value: NSNull())
@@ -59,10 +58,10 @@ class UUIDSerializerTests: XCTestCase {
 
     func testDeserializeUnexpected() {
 
-        let sut = UUIDSerializer()
+        let sut = Int64Serializer()
 
         do {
-            let apiAttribute = try APIAttribute(value: 123)
+            let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
             _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
@@ -70,12 +69,13 @@ class UUIDSerializerTests: XCTestCase {
         }
     }
 
-    func testDeserializeFailed() {
+    func testDeserializeReal() {
 
-        let sut = UUIDSerializer()
+        let value = 2.5
+        let sut = Int64Serializer()
 
         do {
-            let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
+            let apiAttribute = try APIAttribute(value: value)
             _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
@@ -85,16 +85,14 @@ class UUIDSerializerTests: XCTestCase {
 
     func testSerialize() {
 
-        let value = "0bfa858c-304a-11e9-b210-d663bd873d93"
-        let uuid = UUID(uuidString: value)!
-
-        let sut = UUIDSerializer()
+        let value = 90000
+        let sut = Int64Serializer()
 
         do {
-            let result = try sut.serialize(uuid)
+            let result = try sut.serialize(value)
             XCTAssertNotNil(result)
 
-            XCTAssert((result.value as! String).lowercased() == value.lowercased())
+            XCTAssert((result.value as! Int64) == Int64(value))
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -102,13 +100,26 @@ class UUIDSerializerTests: XCTestCase {
 
     func testSerializeUnexpected() {
 
-        let sut = UUIDSerializer()
+        let sut = Int64Serializer()
 
         do {
-            _ = try sut.serialize(123)
+            _ = try sut.serialize("lorem ipsum dolor est")
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
         }
     }
+
+    func testSerializeFailed() {
+
+        let sut = Int64Serializer()
+
+        do {
+            _ = try sut.serialize(123.5)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(TestTools.shared.check(error, is: .failed))
+        }
+    }
+
 }

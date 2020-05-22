@@ -1,5 +1,5 @@
 //
-//  Base64DataSerializer.swift
+//  StringSerializerTests.swift
 //
 // Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,22 +23,21 @@
 //
 
 import XCTest
+@testable import Parsec
 
-class Base64DataSerializerTests: XCTestCase {
+class StringSerializerTests: XCTestCase {
 
     func testDeserialize() {
 
-        let value = "SGkgdGhlcmUh"
-        let data = Data(base64Encoded: value)!
-
-        let sut = Base64DataSerializer()
+        let value = "lopem ipsum dolor est"
+        let sut = StringSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
-            XCTAssertNotNil(result! is Data)
-            XCTAssert((result! as! Data) == data)
+            XCTAssertNotNil(result! is String)
+            XCTAssert((result! as! String) == value)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -46,7 +45,7 @@ class Base64DataSerializerTests: XCTestCase {
 
     func testDeserializeNull() {
 
-        let sut = Base64DataSerializer()
+        let sut = StringSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: NSNull())
@@ -59,7 +58,7 @@ class Base64DataSerializerTests: XCTestCase {
 
     func testDeserializeUnexpected() {
 
-        let sut = Base64DataSerializer()
+        let sut = StringSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: 1234)
@@ -70,29 +69,13 @@ class Base64DataSerializerTests: XCTestCase {
         }
     }
 
-    func testDeserializeFailed() {
-
-        let value = "lorem ipsum dolor est"
-        let sut = Base64DataSerializer()
-
-        do {
-            let apiAttribute = try APIAttribute(value: value)
-            _ = try sut.deserialize(apiAttribute)
-            XCTAssert(false)
-        } catch let error {
-            XCTAssert(TestTools.shared.check(error, is: .failed))
-        }
-    }
-
     func testSerialize() {
 
-        let value = "SGkgdGhlcmUh"
-        let data = Data(base64Encoded: value)!
-
-        let sut = Base64DataSerializer()
+        let value = "lopem ipsum dolor est"
+        let sut = StringSerializer()
 
         do {
-            let result = try sut.serialize(data)
+            let result = try sut.serialize(value)
             XCTAssertNotNil(result)
 
             XCTAssert((result.value as! String) == value)
@@ -103,7 +86,7 @@ class Base64DataSerializerTests: XCTestCase {
 
     func testSerializeUnexpected() {
 
-        let sut = Base64DataSerializer()
+        let sut = StringSerializer()
 
         do {
             _ = try sut.serialize(123)
@@ -112,4 +95,5 @@ class Base64DataSerializerTests: XCTestCase {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
         }
     }
+
 }

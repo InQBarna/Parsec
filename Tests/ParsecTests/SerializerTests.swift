@@ -1,5 +1,5 @@
 //
-//  OpenApiSpecTests.swift
+//  SerializerTests.swift
 //
 // Copyright (c) 2018 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,40 +23,44 @@
 //
 
 import XCTest
-import CoreData
-
 @testable import Parsec
 
-class OpenApiSpecTests: XCTestCase {
+class SerializerTests: XCTestCase {
 
-    func testExample() {
-        let context = TestTools.shared.createContext(with: "Test_2_optionals")
-        let model = context.persistentStoreCoordinator!.managedObjectModel
+    func testDeserialize() {
+
+        let date = Date(timeIntervalSince1970: 0)
+        let value = "1970-01-01T00:00:00Z"
+
+        let dateSerializer = ISO8601DateSerializer()
 
         do {
-            let openApi = try OpenAPISpec(model: model, template: nil)
-            let spec = try openApi.generate()
-            let path = NSTemporaryDirectory() + "spec.yaml"
-
-            try spec.write(toFile: path, atomically: true, encoding: .utf8)
-
-            print("Spec is here: \(path)")
+            let apiAttribute = try APIAttribute(value: value)
+            let result = try dateSerializer.deserialize(apiAttribute)
+            XCTAssertNotNil(result)
+            XCTAssertNotNil(result! is Date)
+            XCTAssert((result! as! Date) == date)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
     }
 
-    func testPerformanceExample() {
-        let context = TestTools.shared.createContext(with: "Test_2_optionals")
-        let model = context.persistentStoreCoordinator!.managedObjectModel
-        let openApi = try! OpenAPISpec(model: model, template: nil)
-        self.measure {
-            do {
-                _ = try openApi.generate()
-            } catch {
+    func testDeserializeUnexpected() {
 
-            }
+        let dateSerializer = ISO8601DateSerializer()
+
+        do {
+            let apiAttribute = try APIAttribute(value: 123)
+            _ = try dateSerializer.deserialize(apiAttribute)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(check(error, is: .unexpectedObject))
         }
     }
 
+    // MARK: - Private methods
+
+    private func check(_ error: Error, is code: SerializerErrorCode) -> Bool {
+        return (error as NSError).code == code.rawValue
+    }
 }

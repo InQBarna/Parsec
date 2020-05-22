@@ -1,5 +1,5 @@
 //
-//  BooleanSerializerTests.swift
+//  UUIDSerializerTests.swift
 //
 // Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,20 +23,23 @@
 //
 
 import XCTest
+@testable import Parsec
 
-class BooleanSerializerTests: XCTestCase {
+class UUIDSerializerTests: XCTestCase {
 
     func testDeserialize() {
 
-        let value = true
-        let sut = BooleanSerializer()
+        let value = "0bfa858c-304a-11e9-b210-d663bd873d93"
+        let uuid = UUID(uuidString: value)!
+
+        let sut = UUIDSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
-            XCTAssertNotNil(result! is Bool)
-            XCTAssert((result! as! Bool) == value)
+            XCTAssertNotNil(result! is UUID)
+            XCTAssert((result! as! UUID) == uuid)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -44,7 +47,7 @@ class BooleanSerializerTests: XCTestCase {
 
     func testDeserializeNull() {
 
-        let sut = BooleanSerializer()
+        let sut = UUIDSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: NSNull())
@@ -57,10 +60,10 @@ class BooleanSerializerTests: XCTestCase {
 
     func testDeserializeUnexpected() {
 
-        let sut = BooleanSerializer()
+        let sut = UUIDSerializer()
 
         do {
-            let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
+            let apiAttribute = try APIAttribute(value: 123)
             _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
@@ -68,16 +71,31 @@ class BooleanSerializerTests: XCTestCase {
         }
     }
 
-    func testSerialize() {
+    func testDeserializeFailed() {
 
-        let value = true
-        let sut = BooleanSerializer()
+        let sut = UUIDSerializer()
 
         do {
-            let result = try sut.serialize(value)
+            let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
+            _ = try sut.deserialize(apiAttribute)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(TestTools.shared.check(error, is: .failed))
+        }
+    }
+
+    func testSerialize() {
+
+        let value = "0bfa858c-304a-11e9-b210-d663bd873d93"
+        let uuid = UUID(uuidString: value)!
+
+        let sut = UUIDSerializer()
+
+        do {
+            let result = try sut.serialize(uuid)
             XCTAssertNotNil(result)
 
-            XCTAssert((result.value as! Bool) == value)
+            XCTAssert((result.value as! String).lowercased() == value.lowercased())
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -85,10 +103,10 @@ class BooleanSerializerTests: XCTestCase {
 
     func testSerializeUnexpected() {
 
-        let sut = BooleanSerializer()
+        let sut = UUIDSerializer()
 
         do {
-            _ = try sut.serialize("lorem ipsum dolor est")
+            _ = try sut.serialize(123)
             XCTAssert(false)
         } catch let error {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))

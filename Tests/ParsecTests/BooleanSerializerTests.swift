@@ -1,5 +1,5 @@
 //
-//  Int64SerializerTests.swift
+//  BooleanSerializerTests.swift
 //
 // Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,20 +23,21 @@
 //
 
 import XCTest
+@testable import Parsec
 
-class Int64SerializerTests: XCTestCase {
+class BooleanSerializerTests: XCTestCase {
 
     func testDeserialize() {
 
-        let value = Int64(90000)
-        let sut = Int64Serializer()
+        let value = true
+        let sut = BooleanSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
-            XCTAssertNotNil(result! is Int64)
-            XCTAssert((result! as! Int64) == value)
+            XCTAssertNotNil(result! is Bool)
+            XCTAssert((result! as! Bool) == value)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -44,7 +45,7 @@ class Int64SerializerTests: XCTestCase {
 
     func testDeserializeNull() {
 
-        let sut = Int64Serializer()
+        let sut = BooleanSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: NSNull())
@@ -57,7 +58,7 @@ class Int64SerializerTests: XCTestCase {
 
     func testDeserializeUnexpected() {
 
-        let sut = Int64Serializer()
+        let sut = BooleanSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
@@ -68,30 +69,16 @@ class Int64SerializerTests: XCTestCase {
         }
     }
 
-    func testDeserializeReal() {
-
-        let value = 2.5
-        let sut = Int64Serializer()
-
-        do {
-            let apiAttribute = try APIAttribute(value: value)
-            _ = try sut.deserialize(apiAttribute)
-            XCTAssert(false)
-        } catch let error {
-            XCTAssert(TestTools.shared.check(error, is: .failed))
-        }
-    }
-
     func testSerialize() {
 
-        let value = 90000
-        let sut = Int64Serializer()
+        let value = true
+        let sut = BooleanSerializer()
 
         do {
             let result = try sut.serialize(value)
             XCTAssertNotNil(result)
 
-            XCTAssert((result.value as! Int64) == Int64(value))
+            XCTAssert((result.value as! Bool) == value)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -99,7 +86,7 @@ class Int64SerializerTests: XCTestCase {
 
     func testSerializeUnexpected() {
 
-        let sut = Int64Serializer()
+        let sut = BooleanSerializer()
 
         do {
             _ = try sut.serialize("lorem ipsum dolor est")
@@ -108,17 +95,4 @@ class Int64SerializerTests: XCTestCase {
             XCTAssert(TestTools.shared.check(error, is: .unexpectedObject))
         }
     }
-
-    func testSerializeFailed() {
-
-        let sut = Int64Serializer()
-
-        do {
-            _ = try sut.serialize(123.5)
-            XCTAssert(false)
-        } catch let error {
-            XCTAssert(TestTools.shared.check(error, is: .failed))
-        }
-    }
-
 }

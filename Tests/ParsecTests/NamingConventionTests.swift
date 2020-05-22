@@ -22,6 +22,7 @@
 // THE SOFTWARE.
 //
 import XCTest
+@testable import Parsec
 
 class NamingConventionTests: XCTestCase {
 

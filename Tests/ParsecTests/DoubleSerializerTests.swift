@@ -1,5 +1,5 @@
 //
-//  DecimalSerializerTests.swift
+//  DoubleSerializerTests.swift
 //
 // Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,20 +23,21 @@
 //
 
 import XCTest
+@testable import Parsec
 
-class DecimalSerializerTests: XCTestCase {
+class DoubleSerializerTests: XCTestCase {
 
     func testDeserialize() {
 
-        let value = NSDecimalNumber(value: 123.5)
-        let sut = DecimalSerializer()
+        let value = NSNumber(value: 123.5)
+        let sut = DoubleSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
-            XCTAssertNotNil(result! is NSDecimalNumber)
-            XCTAssert((result! as! NSDecimalNumber) == value)
+            XCTAssertNotNil(result! is NSNumber)
+            XCTAssert((result! as! NSNumber) == value)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -44,7 +45,7 @@ class DecimalSerializerTests: XCTestCase {
 
     func testDeserializeNull() {
 
-        let sut = DecimalSerializer()
+        let sut = DoubleSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: NSNull())
@@ -57,7 +58,7 @@ class DecimalSerializerTests: XCTestCase {
 
     func testDeserializeUnexpected() {
 
-        let sut = DecimalSerializer()
+        let sut = DoubleSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
@@ -71,7 +72,7 @@ class DecimalSerializerTests: XCTestCase {
     func testSerialize() {
 
         let value = 45.6
-        let sut = DecimalSerializer()
+        let sut = DoubleSerializer()
 
         do {
             let result = try sut.serialize(value)
@@ -85,7 +86,7 @@ class DecimalSerializerTests: XCTestCase {
 
     func testSerializeUnexpected() {
 
-        let sut = DecimalSerializer()
+        let sut = DoubleSerializer()
 
         do {
             _ = try sut.serialize("lorem ipsum dolor est")

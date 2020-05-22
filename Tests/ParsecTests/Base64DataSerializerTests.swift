@@ -1,5 +1,5 @@
 //
-//  UnixTimestampSerializerTests.swift
+//  Base64DataSerializer.swift
 //
 // Copyright (c) 2019 InQBarna Kenkyuu Jo (http://inqbarna.com/)
 //
@@ -23,22 +23,23 @@
 //
 
 import XCTest
+@testable import Parsec
 
-class UnixTimestampSerializerTests: XCTestCase {
+class Base64DataSerializerTests: XCTestCase {
 
     func testDeserialize() {
 
-        let date = Date(timeIntervalSince1970: 0)
-        let value = Double(0)
+        let value = "SGkgdGhlcmUh"
+        let data = Data(base64Encoded: value)!
 
-        let sut = UnixTimestampSerializer()
+        let sut = Base64DataSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: value)
             let result = try sut.deserialize(apiAttribute)
             XCTAssertNotNil(result)
-            XCTAssertNotNil(result! is Date)
-            XCTAssert((result! as! Date) == date)
+            XCTAssertNotNil(result! is Data)
+            XCTAssert((result! as! Data) == data)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -46,7 +47,7 @@ class UnixTimestampSerializerTests: XCTestCase {
 
     func testDeserializeNull() {
 
-        let sut = UnixTimestampSerializer()
+        let sut = Base64DataSerializer()
 
         do {
             let apiAttribute = try APIAttribute(value: NSNull())
@@ -59,10 +60,10 @@ class UnixTimestampSerializerTests: XCTestCase {
 
     func testDeserializeUnexpected() {
 
-        let sut = UnixTimestampSerializer()
+        let sut = Base64DataSerializer()
 
         do {
-            let apiAttribute = try APIAttribute(value: "lorem ipsum dolor est")
+            let apiAttribute = try APIAttribute(value: 1234)
             _ = try sut.deserialize(apiAttribute)
             XCTAssert(false)
         } catch let error {
@@ -70,18 +71,32 @@ class UnixTimestampSerializerTests: XCTestCase {
         }
     }
 
-    func testSerialize() {
+    func testDeserializeFailed() {
 
-        let date = Date(timeIntervalSince1970: 0)
-        let value = Double(0)
-
-        let sut = UnixTimestampSerializer()
+        let value = "lorem ipsum dolor est"
+        let sut = Base64DataSerializer()
 
         do {
-            let result = try sut.serialize(date)
+            let apiAttribute = try APIAttribute(value: value)
+            _ = try sut.deserialize(apiAttribute)
+            XCTAssert(false)
+        } catch let error {
+            XCTAssert(TestTools.shared.check(error, is: .failed))
+        }
+    }
+
+    func testSerialize() {
+
+        let value = "SGkgdGhlcmUh"
+        let data = Data(base64Encoded: value)!
+
+        let sut = Base64DataSerializer()
+
+        do {
+            let result = try sut.serialize(data)
             XCTAssertNotNil(result)
 
-            XCTAssert((result.value as! Double) == value)
+            XCTAssert((result.value as! String) == value)
         } catch let error {
             XCTAssert(false, error.localizedDescription)
         }
@@ -89,7 +104,7 @@ class UnixTimestampSerializerTests: XCTestCase {
 
     func testSerializeUnexpected() {
 
-        let sut = UnixTimestampSerializer()
+        let sut = Base64DataSerializer()
 
         do {
             _ = try sut.serialize(123)

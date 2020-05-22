@@ -12,7 +12,7 @@ s.source           = { :git => "https://github.com/InQBarna/Parsec/Parsec.git", 
 
 s.ios.deployment_target = '10.0'
 s.requires_arc = true
-s.source_files = 'Source/**/*'
+s.source_files = 'Sources/**/*.swift'
 s.swift_version = '5.0'
 
 s.frameworks = 'Foundation', 'CoreData'
