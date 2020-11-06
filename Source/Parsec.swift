@@ -396,33 +396,47 @@ public class Parsec {
     /// - returns:                A `[NSManagedObject]`, empty if APIObjects is empty, order by apiObjects array id order.
     public func managedObjectsFrom(_ apiObjects: [APIObject], context: NSManagedObjectContext) throws -> [NSManagedObject] {
 
-        let apiObjectsIDs: [AnyHashable] = try apiObjects.map {
+        //Dictionary grouping objects by APIObject.type aka APIEntityName
+        let groupedAPIObjectsDict = Dictionary(grouping: apiObjects) { $0.type }
+
+        //Needed to keeps the order in the returned array
+        let orderedAPIObjectsRemoteIDs: [AnyHashable] = try apiObjects.map {
             guard let remoteId = $0.id else {
                 throw NSError(domain: "Parsec.Parsec", code: 2, userInfo: [NSLocalizedDescriptionKey: "APIObject (type '\($0.type)') without valid 'id'"])
             }
             return remoteId
         }
 
-        guard let apiObject = apiObjects.first else {
-            return [NSManagedObject]()
+        var resultManagedObjects = [NSManagedObject]()
+
+        try groupedAPIObjectsDict.forEach { (apiEntityName, apiObjectsByType) in
+            let apiObjectsRemoteIDsByType: [AnyHashable] = try apiObjectsByType.map {
+                guard let remoteId = $0.id else {
+                    throw NSError(domain: "Parsec.Parsec", code: 2, userInfo: [NSLocalizedDescriptionKey: "APIObject (type '\($0.type)') without valid 'id'"])
+                }
+                return remoteId
+            }
+
+            guard let serializer = entitiesByType[apiEntityName] else {
+                let message = String(format: "No serializer found for type '%@'", apiEntityName)
+                throw EntitySerializerErrorCode.unknownType.error(message)
+            }
+
+            let fr: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: serializer.name)
+            fr.predicate = NSPredicate(format: "id IN %@", apiObjectsRemoteIDsByType)
+
+            let managedObjectsByType = try context.fetch(fr)
+
+            guard apiObjectsRemoteIDsByType.count == managedObjectsByType.count else {
+                throw NSError(domain: "Parsec.Parsec", code: 3, userInfo: [NSLocalizedDescriptionKey: "APIObjects array and ManagedObjects retrieved must contains the same number of items"])
+            }
+
+            resultManagedObjects.append(contentsOf: managedObjectsByType)
         }
 
-        guard let serializer = entitiesByType[apiObject.type] else {
-            let message = String(format: "No serializer found for type '%@'", apiObject.type)
-            throw EntitySerializerErrorCode.unknownType.error(message)
-        }
-
-        let fr: NSFetchRequest<NSManagedObject> = NSFetchRequest(entityName: serializer.name)
-        fr.predicate = NSPredicate(format: "id IN %@", apiObjectsIDs)
-
-        let managedObjects = try context.fetch(fr)
-        try context.obtainPermanentIDs(for: managedObjects)
-
-        guard apiObjectsIDs.count == managedObjects.count else {
-            throw NSError(domain: "Parsec.Parsec", code: 3, userInfo: [NSLocalizedDescriptionKey: "APIObjects array and ManagedObjects retrieved must contains the same number of items"])
-        }
-
-        let result = try managedObjects.sorted { (leftObject, rightObject) -> Bool in
+        try context.obtainPermanentIDs(for: resultManagedObjects)
+        
+        let result = try resultManagedObjects.sorted { (leftObject, rightObject) -> Bool in
             guard
                 let leftID = leftObject.value(forKey: "id") as? AnyHashable,
                 let rightID = rightObject.value(forKey: "id") as? AnyHashable
@@ -431,8 +445,8 @@ public class Parsec {
             }
 
             guard
-                let leftIndex = apiObjectsIDs.firstIndex(of: leftID),
-                let rightIndex = apiObjectsIDs.firstIndex(of: rightID)
+                let leftIndex = orderedAPIObjectsRemoteIDs.firstIndex(of: leftID),
+                let rightIndex = orderedAPIObjectsRemoteIDs.firstIndex(of: rightID)
             else {
                 throw NSError(domain: "Parsec.Parsec", code: 5, userInfo: [NSLocalizedDescriptionKey: "Index for ManagedObject 'id' not found in APIObject param array"])
             }
