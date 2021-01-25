@@ -422,22 +422,22 @@ public class Parsec {
             throw NSError(domain: "Parsec.Parsec", code: 3, userInfo: [NSLocalizedDescriptionKey: "APIObjects array and ManagedObjects retrieved must contains the same number of items"])
         }
 
-        let result = try managedObjects.sorted { (leftObject, rightObject) -> Bool in
-            guard
-                let leftID = leftObject.value(forKey: "id") as? AnyHashable,
-                let rightID = rightObject.value(forKey: "id") as? AnyHashable
-            else {
-                throw NSError(domain: "Parsec.Parsec", code: 4, userInfo: [NSLocalizedDescriptionKey: "Stored ManagedObject without valid 'id' String property"])
+        let map: [AnyHashable: NSManagedObject] = try managedObjects.reduce([:]) { (res, obj) -> [AnyHashable: NSManagedObject] in
+            guard let remoteID = obj.value(forKey: "id") as? AnyHashable else {
+                throw NSError(domain: "Parsec.Parsec", code: 4, userInfo: [NSLocalizedDescriptionKey: "Stored ManagedObject without valid 'id'"])
             }
 
-            guard
-                let leftIndex = apiObjectsIDs.firstIndex(of: leftID),
-                let rightIndex = apiObjectsIDs.firstIndex(of: rightID)
-            else {
-                throw NSError(domain: "Parsec.Parsec", code: 5, userInfo: [NSLocalizedDescriptionKey: "Index for ManagedObject 'id' not found in APIObject param array"])
+            return res.merging([remoteID: obj]) { (obj1, obj2) -> NSManagedObject in
+                obj1
+            }
+        }
+
+        let result = try apiObjectsIDs.map { (remoteId) -> NSManagedObject in
+            guard let obj = map[remoteId] else {
+                throw NSError(domain: "Parsec.Parsec", code: 5, userInfo: [NSLocalizedDescriptionKey: "Missing object with 'id'='\(remoteId)'"])
             }
 
-            return leftIndex < rightIndex
+            return obj
         }
 
         return result
