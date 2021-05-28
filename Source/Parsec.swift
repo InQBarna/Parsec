@@ -104,7 +104,7 @@ public protocol Serializer {
 }
 
 /// The protocol in which parsers must conform to in order to deserialize/serialize values from/to API domain.
-public protocol APIParser: class {
+public protocol APIParser: AnyObject {
     /// Parses the API response (`json`) into a `APIDocument`.
     /// - parameter json:  The API response to be parsed.
     /// - returns: An `APIDocument`.
