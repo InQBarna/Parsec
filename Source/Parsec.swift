@@ -419,7 +419,9 @@ public class Parsec {
         try context.obtainPermanentIDs(for: managedObjects)
 
         guard apiObjectsIDs.count == managedObjects.count else {
-            throw NSError(domain: "Parsec.Parsec", code: 3, userInfo: [NSLocalizedDescriptionKey: "APIObjects array and ManagedObjects retrieved must contains the same number of items"])
+            let apiName = apiObjects.first?.type ?? "unknown"
+            let managedName = managedObjects.first?.entity.name ?? "unknown"
+            throw NSError(domain: "Parsec.Parsec", code: 3, userInfo: [NSLocalizedDescriptionKey: "APIObjects (\(apiObjectsIDs.count) \(apiName)) array and ManagedObjects (\(managedObjects.count) \(managedName)) retrieved must contains the same number of items"])
         }
 
         let map: [AnyHashable: NSManagedObject] = try managedObjects.reduce([:]) { (res, obj) -> [AnyHashable: NSManagedObject] in
