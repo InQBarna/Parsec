@@ -447,9 +447,9 @@ public class Parsec {
 
     func deserialize(document: APIDocument) throws -> [ObjectData] {
 
-        var objects = document.data ?? []
-        if let included = document.included {
-            objects.append(contentsOf: included)
+        var objects = document.included ?? []
+        if let data = document.data {
+            objects.append(contentsOf: data)
         }
 
         var result: [ObjectData] = []
